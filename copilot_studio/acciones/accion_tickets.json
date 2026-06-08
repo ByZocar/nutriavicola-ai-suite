@@ -1,0 +1,19 @@
+{
+  "nombre": "ConsultarTicketsCriticos",
+  "descripcion": "Accion externa que consume el JSON de tickets criticos del Reto 2.",
+  "tipo": "HTTP",
+  "metodo": "GET",
+  "url": "https://<host-del-extra>/tickets/criticos",
+  "encabezados": {
+    "Authorization": "Bearer {API_TOKEN}"
+  },
+  "respuestas": {
+    "200": {
+      "descripcion": "Devuelve el conteo y la lista de tickets criticos.",
+      "campos": ["total_criticos", "tickets"]
+    }
+  },
+  "mapeo_salida": {
+    "total_criticos": "$.total_criticos"
+  }
+}

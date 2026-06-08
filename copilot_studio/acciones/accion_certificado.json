@@ -1,0 +1,30 @@
+{
+  "nombre": "GenerarCertificadoLaboral",
+  "descripcion": "Accion externa que valida al empleado y genera el certificado en PDF.",
+  "tipo": "HTTP",
+  "metodo": "POST",
+  "url": "https://<host-del-extra>/certificados",
+  "encabezados": {
+    "Content-Type": "application/json",
+    "Authorization": "Bearer {API_TOKEN}"
+  },
+  "cuerpo_solicitud": {
+    "numero_documento": "{numero_documento}",
+    "area": "{area}"
+  },
+  "respuestas": {
+    "200": {
+      "descripcion": "Empleado validado y certificado generado.",
+      "campos": ["mensaje", "ruta_pdf", "empleado.nombre", "empleado.cargo", "empleado.area"]
+    },
+    "404": {
+      "descripcion": "Empleado no encontrado: dispara el fallback / transferencia a humano.",
+      "campos": ["detail"]
+    }
+  },
+  "mapeo_salida": {
+    "empleado_nombre": "$.empleado.nombre",
+    "empleado_cargo": "$.empleado.cargo",
+    "enlace_pdf": "$.ruta_pdf"
+  }
+}
