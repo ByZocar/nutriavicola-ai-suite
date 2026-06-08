@@ -1,0 +1,36 @@
+# Contrato del Topic "Tickets críticos" (Reto 2 - Soporte TI)
+# Consume el JSON de tickets criticos y responde el conteo al usuario.
+
+topic: Tickets críticos
+descripcion: >
+  Simula leer el JSON generado por el script del Reto 2 y le informa al usuario
+  cuantos tickets criticos (Pendiente + Alta) tiene pendientes.
+
+frases_desencadenantes:
+  - cuantos tickets tengo
+  - tickets pendientes
+  - casos criticos
+  - tengo tickets sin resolver
+  - estado de mis tickets
+  - cuantos casos criticos hay
+  - soporte ti
+  - revisar mis incidencias
+  - tickets de alta prioridad
+  - que tan saturado esta el soporte
+
+accion_externa:
+  referencia: acciones/accion_tickets.json
+  cuando: al activarse el topic
+  recibe: total_criticos
+
+respuestas:
+  exito: >
+    Actualmente tienes {total_criticos} tickets criticos pendientes por resolver.
+  sin_criticos: >
+    Buenas noticias: no tienes tickets criticos pendientes en este momento.
+
+fallback:
+  condicion: la accion externa falla
+  accion: >
+    Informar que el servicio de tickets no esta disponible y sugerir reintentar
+    mas tarde.

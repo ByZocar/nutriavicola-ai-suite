@@ -1,0 +1,33 @@
+# Contrato del Orquestador (Reto 3)
+# Agente principal que unifica los dos Topics en un solo canal y enruta por intencion.
+
+agente: Asistente Interno Nutriavicola
+descripcion: >
+  Un solo agente que saluda, reconoce la intencion del usuario y enruta al
+  sub-flujo de Certificados (RRHH) o al de Soporte TI segun lo que escriba.
+
+saludo_inicial: >
+  Hola, soy el asistente interno de Nutriavicola. Puedo ayudarte con tu
+  certificado laboral o con el estado de tus tickets de soporte TI.
+  ¿En que necesitas ayuda hoy?
+
+sub_flujos:
+  - topic: Certificado laboral
+    contrato: topics/agente_certificados.yaml
+    intencion: solicitudes de certificados o constancias (RRHH)
+  - topic: Tickets críticos
+    contrato: topics/agente_soporte_ti.yaml
+    intencion: consultas sobre tickets o soporte (TI)
+
+reconocimiento_intencion:
+  motor: NLU nativo de Copilot Studio
+  logica: >
+    El agente contiene ambos Topics; el motor dispara el Topic cuya frase
+    desencadenante mejor coincide con el mensaje del usuario.
+  desambiguacion: >
+    Si la confianza es baja o el mensaje calza con ambos, mostrar un menu con
+    las dos opciones (Certificados / Tickets) para que el usuario elija.
+
+fallback_global: >
+  No estoy seguro de haberte entendido. Puedo ayudarte con tu certificado
+  laboral o con tus tickets de soporte TI. ¿Cual de los dos necesitas?

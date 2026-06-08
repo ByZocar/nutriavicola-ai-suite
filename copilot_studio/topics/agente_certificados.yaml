@@ -1,0 +1,55 @@
+# Contrato del Topic "Certificado laboral" (Reto 1 - RRHH)
+# Define frases desencadenantes, datos a validar, accion externa y fallback.
+
+topic: Certificado laboral
+descripcion: >
+  Atiende la solicitud "Necesito un certificado laboral". Valida dos datos del
+  usuario (documento y area) y llama a una accion externa para generar el PDF.
+
+frases_desencadenantes:
+  - necesito un certificado laboral
+  - quiero mi certificado laboral
+  - me pueden dar una constancia laboral
+  - solicito carta laboral
+  - certificado de trabajo
+  - necesito una certificacion de mi contrato
+  - como pido mi certificado laboral
+  - certificado para el banco
+  - constancia de ingresos
+  - documento que acredite que trabajo aqui
+
+variables:
+  - nombre: numero_documento
+    tipo: texto
+    pregunta: "Para generar tu certificado, indicame tu numero de documento."
+    validacion: solo digitos, entre 6 y 12 caracteres
+    reintentos: 2
+  - nombre: area
+    tipo: opcion_cerrada
+    pregunta: "Perfecto. Ahora dime, ¿en que area trabajas?"
+    opciones:
+      - Inteligencia de Negocios
+      - Producción
+      - Mantenimiento
+      - Gestión Humana
+      - Ventas
+      - Calidad
+      - Logística
+    reintentos: 2
+
+accion_externa:
+  referencia: acciones/accion_certificado.json
+  cuando: despues de validar numero_documento y area
+  envia: [numero_documento, area]
+
+respuestas:
+  exito: >
+    Listo {empleado.nombre}, genere tu certificado laboral como
+    {empleado.cargo} del area de {area}. Te comparto el documento.
+  no_encontrado: >
+    No pude validar tus datos en el sistema. Te voy a transferir con un agente
+    humano de Gestion Humana para que revise tu caso.
+
+fallback:
+  condicion: la accion externa responde 404 o falla
+  accion: transferir a un agente humano (Gestion Humana)
