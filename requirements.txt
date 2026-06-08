@@ -1,0 +1,36 @@
+# Dependencias del proyecto Nutriavicola AI Suite
+# Versiones fijadas a las probadas en desarrollo para builds reproducibles.
+
+# Manejo y análisis de datos
+pandas==3.0.3
+openpyxl==3.1.5
+numpy==2.4.6
+
+# Generación de datos sintéticos (dataset anonimizado de empleados)
+Faker==40.21.0
+
+# API REST del extra
+fastapi==0.136.3
+uvicorn[standard]==0.49.0
+pydantic==2.13.4
+
+# Generación del certificado laboral en PDF
+reportlab==4.5.1
+
+# Clasificador de tickets nuevos
+scikit-learn==1.9.0
+
+# Dashboard analítico (contenedorizado y desplegable online)
+streamlit==1.58.0
+plotly==6.8.0
+
+# Utilidades
+python-dotenv==1.2.2
+requests==2.34.2
+
+# Diagramas: conversion de HTML a PDF (requiere libs del sistema: pango, cairo)
+weasyprint==69.0
+
+# Pruebas
+pytest==9.0.3
+httpx==0.28.1
