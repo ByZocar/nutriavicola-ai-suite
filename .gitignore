@@ -1,0 +1,41 @@
+# Documentos fuente de la prueba (no se suben: PII y material entregado)
+Prueba Técnica IA.docx
+Reto 1.xlsx
+Reto2.txt
+
+# Guías internas del asistente (no son entregables)
+agent.md
+roadmap.md
+
+# Datos crudos (pueden contener PII real)
+data/raw/
+
+# Certificados PDF generados (artefactos reproducibles bajo demanda)
+data/processed/certificado_*.pdf
+
+# Entornos y artefactos de Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+venv/
+env/
+
+# Configuración local y secretos
+.env
+*.local
+
+# Herramientas y cachés
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Sistema operativo / editor
+.DS_Store
+.idea/
+.vscode/
