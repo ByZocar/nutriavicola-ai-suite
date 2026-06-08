@@ -1,0 +1,31 @@
+ID,Título,Entidad,Estado,Última actualización,Fecha de Apertura,Prioridad,Solicitante,Técnico_Asignado,Categoría,Tiempo de solución,Área_Solicitante,Tipo_Incidencia,Nivel_Soporte
+6568,solicitud,Nutriavicola S.A.S.,Nuevo,2026-05-25 13:17:00,2026-05-25 13:17:00,Mediana,Cristina Tabares,Sin asignar,Sin asignar,,Logística,Accesos,Nivel 3
+6567,SOLICITUD DE CARGADOR PARA TELEFONO,Nutriavicola S.A.S.,Nuevo,2026-05-25 11:44:00,2026-05-25 11:44:00,Mediana,auxiliarcompras1@nutriavicola.com,Sin asignar,Sin asignar,,Mantenimiento,Hardware,Nivel 1
+6565,Cambio contraseña de SIESa,Nutriavicola S.A.S.,Pendiente,2026-05-25 11:44:00,2026-05-25 11:44:00,Alta,Luis Alfredo Delgado,Sin asignar,Sin asignar,,Calidad,Hardware,Nivel 3
+6566,Impresora Fabrica,Nutriavicola S.A.S.,Nuevo,2026-05-25 11:44:00,2026-05-25 11:44:00,Mediana,Munir Sayur,Sin asignar,Sin asignar,,Logística,Redes,Nivel 3
+6544,Formato de Novedades Analista Gestion de Suministros,Nutriavicola S.A.S.,En curso,2026-05-25 08:36:00,2026-05-20 14:38:00,Mediana,Carolina Herrera,Rodrigo Garzon,CUENTAS USUARIOS,,Inteligencia de Negocios,Redes,Nivel 2
+6561,RV: Novedad: Uso de Simulador TIA Portal V19,Nutriavicola S.A.S.,Nuevo,2026-05-25 07:20:00,2026-05-25 07:20:00,Mediana,Hector Enoc Echeverry,Sin asignar,Sin asignar,,Calidad,Software,Nivel 1
+6564,RE: cambio Teclado y mouse,Nutriavicola S.A.S.,Nuevo,2026-05-25 07:20:00,2026-05-25 07:20:00,Mediana,Carolina Herrera,Sin asignar,Sin asignar,,Calidad,Accesos,Nivel 2
+6560,solicitud ayuda pantalla,Nutriavicola S.A.S.,Pendiente,2026-05-25 07:20:00,2026-05-25 07:20:00,Alta,servicioventastulua@nutriavicola.com,Sin asignar,Sin asignar,,Logística,Accesos,Nivel 2
+6563,cambio Teclado y mouse,Nutriavicola S.A.S.,Nuevo,2026-05-25 07:20:00,2026-05-25 07:20:00,Mediana,aprendizcompras@nutriavicola.com,Sin asignar,Sin asignar,,Producción,Redes,Nivel 2
+6556,SOLICITUD DE AUTORIZACION EN SIESA FISCAL,Nutriavicola S.A.S.,En curso,2026-05-22 11:03:00,2026-05-21 09:52:00,Mediana,Alejandra Aristizabal,Rodrigo Garzon,SIESA ERP,,Inteligencia de Negocios,Accesos,Nivel 2
+6555,MODIFICAR CUENTAS AUXILIARES EN LOS FORMATOS,Nutriavicola S.A.S.,En curso,2026-05-22 11:03:00,2026-05-21 09:52:00,Mediana,Elizabeth Guzman,Rodrigo Garzon,SIESA ERP,,Logística,Accesos,Nivel 2
+6553,HABILITACION DE Link para IPT,Nutriavicola S.A.S.,En curso,2026-05-22 11:02:00,2026-05-21 09:52:00,Mediana,Francia Quiceno,Rodrigo Garzon,INTERNET,,Inteligencia de Negocios,Hardware,Nivel 2
+6552,INGRESO MICHAEL STEVEN DIAZ CASTRO,Nutriavicola S.A.S.,Pendiente,2026-05-22 11:01:00,2026-05-21 09:52:00,Alta,Andres Vivas,Carlos Lopez,CUENTAS USUARIOS,,Inteligencia de Negocios,Redes,Nivel 2
+6558,usuario MYe VOIce,Nutriavicola S.A.S.,En curso,2026-05-22 11:01:00,2026-05-22 10:12:00,Mediana,Carlos Arango Garzon,Rodrigo Garzon,CUENTAS USUARIOS,,Calidad,ERP SAP,Nivel 1
+6548,RV: Formato novedad de usuario,Nutriavicola S.A.S.,En curso,2026-05-21 07:47:00,2026-05-20 14:48:00,Mediana,Hector Enoc Echeverry,Carlos Lopez,CELULARES,,Mantenimiento,Redes,Nivel 3
+6549,Solicitud configuración equipo Ingreso nuevo,Nutriavicola S.A.S.,En curso,2026-05-21 07:47:00,2026-05-20 17:53:00,Mediana,mayra.bedoya@summologistics.com,Carlos Lopez,CUENTAS USUARIOS,,Inteligencia de Negocios,ERP SAP,Nivel 2
+6550,Solicitud configuración equipo Aux Facturación,Nutriavicola S.A.S.,En curso,2026-05-21 07:46:00,2026-05-20 17:53:00,Mediana,mayra.bedoya@summologistics.com,Carlos Lopez,CUENTAS USUARIOS,,Gestión Humana,Hardware,Nivel 2
+6551,Solicitud configuración equipo Aux Carlos,Nutriavicola S.A.S.,En curso,2026-05-21 07:05:00,2026-05-20 17:53:00,Mediana,mayra.bedoya@summologistics.com,Carlos Lopez,CUENTAS USUARIOS,,Calidad,Software,Nivel 2
+6547,INGRESO MICHAEL STEVEN DIAZ CASTRO 2,Nutriavicola S.A.S.,Pendiente,2026-05-20 14:50:00,2026-05-20 14:48:00,Alta,Rodrigo Garzon,Carlos Lopez,CUENTAS USUARIOS,,Producción,Accesos,Nivel 2
+6546,INGRESO MICHAEL STEVEN DIAZ CASTRO 3,Nutriavicola S.A.S.,En curso,2026-05-20 14:48:00,2026-05-20 14:48:00,Mediana,Rodrigo Garzon,Carlos Lopez,CUENTAS USUARIOS,,Mantenimiento,Hardware,Nivel 2
+6545,Solicitud tarjeta de ingreso,Nutriavicola S.A.S.,En curso,2026-05-20 14:48:00,2026-05-20 14:38:00,Mediana,Maria Paula Castro,Rodrigo Garzon,TARJETA,,Gestión Humana,Accesos,Nivel 2
+6535,RV: INGRESO MICHAEL STEVEN DIAZ CASTRO 4,Nutriavicola S.A.S.,En curso,2026-05-20 14:41:00,2026-05-19 13:14:00,Mediana,Andres Vivas,Carlos Lopez,CUENTAS USUARIOS,,Gestión Humana,Software,Nivel 3
+6499,Problemas de memoria,Nutriavicola S.A.S.,En curso,2026-05-20 14:28:00,2026-05-04 08:22:00,Mediana,analistabi2@nutriavicola.com,Carlos Lopez,COMPUTADORES,,Producción,Software,Nivel 3
+6530,TECLADO PORTATIL,Nutriavicola S.A.S.,En curso,2026-05-20 07:46:00,2026-05-14 07:48:00,Mediana,Alexander Cuadros,Carlos Lopez,ACCESORIOS,,Mantenimiento,Hardware,Nivel 2
+6502,Novedad PC,Nutriavicola S.A.S.,En curso,2026-05-19 14:33:00,2026-05-05 10:15:00,Mediana,mburbano@nutriavicola.com,Carlos Lopez,COMPUTADORES,,Calidad,Software,Nivel 3
+6538,Solicitud de reposición: Teléfono e impresora BODEGA TULUA.,Nutriavicola S.A.S.,Pendiente,2026-05-19 13:47:00,2026-05-19 13:14:00,Alta,yrivera@nutriavicola.com,Rodrigo Garzon,ACCESORIOS,,Ventas,ERP SAP,Nivel 1
+6537,Solicitud tarjeta de ingreso 2,Nutriavicola S.A.S.,En curso,2026-05-19 13:46:00,2026-05-19 13:14:00,Mediana,Maria Paula Castro,Rodrigo Garzon,TARJETA,,Mantenimiento,Software,Nivel 2
+6536,RE: Solicitud de transacción MM06 y MM17,Nutriavicola S.A.S.,En curso,2026-05-19 13:45:00,2026-05-19 13:14:00,Mediana,Carolina Herrera,Rodrigo Garzon,SAP,,Producción,Accesos,Nivel 1
+6534,copia de seguridad del computador administrativo,Nutriavicola S.A.S.,En curso,2026-05-19 13:39:00,2026-05-19 13:14:00,Mediana,laboratorioadmon@nutriavicola.com,Rodrigo Garzon,BACKUP,,Gestión Humana,Accesos,Nivel 1
+6541,Recuperar: Formato de Novedades Auxiliar Gestion de Suministros,Nutriavicola S.A.S.,Pendiente,2026-05-19 13:38:00,2026-05-19 13:37:00,Alta,Carolina Herrera,Carlos Lopez,CUENTAS USUARIOS,,Calidad,Accesos,Nivel 2

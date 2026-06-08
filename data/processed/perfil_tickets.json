@@ -1,0 +1,60 @@
+{
+  "total_filas": 30,
+  "total_columnas": 14,
+  "columnas": [
+    "ID",
+    "Título",
+    "Entidad",
+    "Estado",
+    "Última actualización",
+    "Fecha de Apertura",
+    "Prioridad",
+    "Solicitante",
+    "Técnico_Asignado",
+    "Categoría",
+    "Tiempo de solución",
+    "Área_Solicitante",
+    "Tipo_Incidencia",
+    "Nivel_Soporte"
+  ],
+  "nulos_por_columna": {
+    "ID": 0,
+    "Título": 0,
+    "Entidad": 0,
+    "Estado": 0,
+    "Última actualización": 0,
+    "Fecha de Apertura": 0,
+    "Prioridad": 0,
+    "Solicitante": 0,
+    "Técnico_Asignado": 0,
+    "Categoría": 0,
+    "Tiempo de solución": 30,
+    "Área_Solicitante": 0,
+    "Tipo_Incidencia": 0,
+    "Nivel_Soporte": 0
+  },
+  "filas_duplicadas": 0,
+  "dominios_categoricos": {
+    "Estado": [
+      "En curso",
+      "Nuevo",
+      "Pendiente"
+    ],
+    "Prioridad": [
+      "Alta",
+      "Mediana"
+    ],
+    "Tipo_Incidencia": [
+      "Accesos",
+      "ERP SAP",
+      "Hardware",
+      "Redes",
+      "Software"
+    ],
+    "Nivel_Soporte": [
+      "Nivel 1",
+      "Nivel 2",
+      "Nivel 3"
+    ]
+  }
+}

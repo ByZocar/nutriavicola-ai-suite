@@ -1,0 +1,47 @@
+{
+  "total_filas": 50,
+  "total_columnas": 9,
+  "columnas": [
+    "Numero_Documento",
+    "Nombre_Completo",
+    "Area",
+    "Cargo",
+    "Estado",
+    "Tipo_Contrato",
+    "Salario",
+    "Fecha_Ingreso",
+    "Fecha_Retiro"
+  ],
+  "nulos_por_columna": {
+    "Numero_Documento": 0,
+    "Nombre_Completo": 0,
+    "Area": 0,
+    "Cargo": 0,
+    "Estado": 0,
+    "Tipo_Contrato": 0,
+    "Salario": 0,
+    "Fecha_Ingreso": 0,
+    "Fecha_Retiro": 40
+  },
+  "filas_duplicadas": 0,
+  "dominios_categoricos": {
+    "Area": [
+      "Calidad",
+      "Gestión Humana",
+      "Inteligencia de Negocios",
+      "Logística",
+      "Mantenimiento",
+      "Producción",
+      "Ventas"
+    ],
+    "Estado": [
+      "Activo",
+      "Retirado"
+    ],
+    "Tipo_Contrato": [
+      "Fijo",
+      "Indefinido",
+      "Obra o Labor"
+    ]
+  }
+}
