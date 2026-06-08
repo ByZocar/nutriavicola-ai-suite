@@ -1,0 +1,13 @@
+# Blueprint de despliegue en Render (servicio de contenedores online).
+# Render detecta este archivo y crea el servicio del dashboard automaticamente.
+services:
+  - type: web
+    name: nutriavicola-dashboard
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: free
+    autoDeploy: true
+    healthCheckPath: /
+    envVars:
+      - key: PYTHONPATH
+        value: /app/src
