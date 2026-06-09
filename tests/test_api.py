@@ -37,3 +37,22 @@ def test_clasificador_sugiere():
     respuesta = cliente.post("/clasificador/sugerir", json={"titulo": "No tengo acceso a SAP"})
     assert respuesta.status_code == 200
     assert "tipo_incidencia_sugerido" in respuesta.json()
+
+
+def test_certificado_valido_devuelve_url_descarga():
+    """Un empleado valido debe responder con el enlace de descarga del PDF."""
+    respuesta = cliente.post(
+        "/certificados",
+        json={"numero_documento": "1010000003", "area": "Gestión Humana"},
+    )
+    assert respuesta.status_code == 200
+    cuerpo = respuesta.json()
+    assert "url_descarga" in cuerpo
+    assert cuerpo["url_descarga"].endswith("/certificados/1010000003/pdf")
+
+
+def test_descargar_pdf_por_documento():
+    """El endpoint de descarga debe devolver un PDF para un documento valido."""
+    respuesta = cliente.get("/certificados/1010000003/pdf")
+    assert respuesta.status_code == 200
+    assert respuesta.headers["content-type"] == "application/pdf"

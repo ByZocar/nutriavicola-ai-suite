@@ -64,6 +64,31 @@ def buscar_empleado(numero_documento: str, area: str, df: pd.DataFrame | None = 
     return coincidencias.iloc[0].to_dict()
 
 
+def buscar_por_documento(numero_documento: str, df: pd.DataFrame | None = None) -> dict:
+    """
+    Busca un empleado solo por documento (el documento es identificador unico).
+
+    Se usa para la descarga del PDF: la validacion de documento + area ya ocurrio
+    en la conversacion, asi que aqui basta el documento para recuperar el archivo.
+    """
+    df = df if df is not None else cargar_empleados()
+    documento = str(numero_documento).strip()
+    coincidencias = df[df["Numero_Documento"] == documento]
+    if coincidencias.empty:
+        raise EmpleadoNoEncontrado(
+            f"No se encontro un empleado con documento {documento}."
+        )
+    return coincidencias.iloc[0].to_dict()
+
+
+def generar_certificado_pdf_por_documento(
+    numero_documento: str, ruta_salida: Path | str | None = None
+) -> Path:
+    """Genera el certificado validando solo por documento (para la descarga)."""
+    empleado = buscar_por_documento(numero_documento)
+    return generar_certificado_pdf(empleado["Numero_Documento"], empleado["Area"], ruta_salida)
+
+
 def generar_certificado_pdf(
     numero_documento: str, area: str, ruta_salida: Path | str | None = None
 ) -> Path:

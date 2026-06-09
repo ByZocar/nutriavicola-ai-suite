@@ -11,6 +11,8 @@ Ejecucion local:
 
 from __future__ import annotations
 
+import os
+
 import pandas as pd
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import FileResponse
@@ -89,23 +91,32 @@ def resumen_tickets() -> dict:
     }
 
 
+# URL base publica de la API (configurable por entorno). Sirve para construir
+# el enlace de descarga que el agente le muestra al usuario en el chat.
+BASE_URL = os.getenv("BASE_URL", "https://nutriavicola-api.onrender.com")
+
+
 @app.post("/certificados")
 def crear_certificado(solicitud: SolicitudCertificado) -> dict:
     """
     Valida documento + area y genera el certificado laboral en PDF.
 
     Responde 404 si el empleado no existe, que es lo que el agente convierte en
-    un mensaje amable o en una transferencia a un humano.
+    un mensaje amable o en una transferencia a un humano. Devuelve un enlace de
+    descarga listo para mostrar en el chat.
     """
     try:
         empleado = generador.buscar_empleado(solicitud.numero_documento, solicitud.area)
-        ruta = generador.generar_certificado_pdf(solicitud.numero_documento, solicitud.area)
+        generador.generar_certificado_pdf(solicitud.numero_documento, solicitud.area)
     except generador.EmpleadoNoEncontrado as error:
         raise HTTPException(status_code=404, detail=str(error))
 
+    documento = str(empleado["Numero_Documento"])
+    url_descarga = f"{BASE_URL}/certificados/{documento}/pdf"
+
     return {
         "mensaje": f"Certificado generado para {empleado['Nombre_Completo']}.",
-        "ruta_pdf": str(ruta),
+        "url_descarga": url_descarga,
         "empleado": {
             "nombre": empleado["Nombre_Completo"],
             "cargo": empleado["Cargo"],
@@ -116,10 +127,15 @@ def crear_certificado(solicitud: SolicitudCertificado) -> dict:
 
 
 @app.get("/certificados/{numero_documento}/pdf")
-def descargar_certificado(numero_documento: str, area: str) -> FileResponse:
-    """Genera y devuelve el PDF del certificado como archivo descargable."""
+def descargar_certificado(numero_documento: str) -> FileResponse:
+    """
+    Genera y devuelve el PDF del certificado como archivo descargable.
+
+    Busca solo por documento: la validacion de documento + area ya se hizo en la
+    conversacion, asi el enlace es limpio y se abre directo en el navegador.
+    """
     try:
-        ruta = generador.generar_certificado_pdf(numero_documento, area)
+        ruta = generador.generar_certificado_pdf_por_documento(numero_documento)
     except generador.EmpleadoNoEncontrado as error:
         raise HTTPException(status_code=404, detail=str(error))
     return FileResponse(ruta, media_type="application/pdf", filename=ruta.name)
