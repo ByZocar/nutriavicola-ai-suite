@@ -1,6 +1,21 @@
-# Blueprint de despliegue en Render (servicio de contenedores online).
-# Render detecta este archivo y crea el servicio del dashboard automaticamente.
+# Blueprint de despliegue en Render.
+# Define dos servicios: la API REST y el dashboard analitico.
+# Render detecta este archivo y los crea automaticamente.
+
 services:
+  # API REST: la accion externa que invocan los agentes de Copilot Studio
+  - type: web
+    name: nutriavicola-api
+    runtime: docker
+    dockerfilePath: ./Dockerfile.api
+    plan: free
+    autoDeploy: true
+    healthCheckPath: /salud
+    envVars:
+      - key: PYTHONPATH
+        value: /app/src
+
+  # Dashboard analitico de tickets TI (Streamlit)
   - type: web
     name: nutriavicola-dashboard
     runtime: docker
