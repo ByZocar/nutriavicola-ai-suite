@@ -19,7 +19,6 @@ from pydantic import BaseModel, Field
 from nutria_ai import config
 from nutria_ai.certificados import generador
 from nutria_ai.clasificador import modelo
-from nutria_ai.datos import ingesta, limpieza
 from nutria_ai.tickets import exportador, filtrado
 
 app = FastAPI(
@@ -27,6 +26,16 @@ app = FastAPI(
     description="Acciones externas para los agentes de RRHH y Soporte TI.",
     version="0.1.0",
 )
+
+
+def _leer_tickets_procesados() -> pd.DataFrame:
+    """
+    Lee los tickets desde el CSV procesado, no desde el raw.
+
+    En el contenedor de produccion no existen datos crudos (gitignored),
+    asi que siempre leemos el artefacto limpio que si esta en el repo.
+    """
+    return pd.read_csv(config.RUTA_TICKETS_LIMPIOS)
 
 # El clasificador se entrena una sola vez y se reutiliza (cache en memoria)
 _clasificador: modelo.ClasificadorTickets | None = None
@@ -62,23 +71,21 @@ def salud() -> dict:
 @app.get("/tickets/criticos")
 def tickets_criticos() -> dict:
     """Devuelve los tickets criticos (Pendiente + Alta) y su conteo."""
-    crudo = ingesta.cargar_tickets()
-    limpio = limpieza.limpiar_tickets(crudo)
-    criticos = filtrado.filtrar_criticos(limpio)
+    df = _leer_tickets_procesados()
+    criticos = filtrado.filtrar_criticos(df)
     return exportador.construir_payload(criticos)
 
 
 @app.get("/tickets/resumen")
 def resumen_tickets() -> dict:
     """Resumen analitico de los tickets para el dashboard y el agente."""
-    crudo = ingesta.cargar_tickets()
-    limpio = limpieza.limpiar_tickets(crudo)
+    df = _leer_tickets_procesados()
     return {
-        "total": int(len(limpio)),
-        "por_estado": limpio["Estado"].value_counts().to_dict(),
-        "por_prioridad": limpio["Prioridad"].value_counts().to_dict(),
-        "por_tipo": limpio["Tipo_Incidencia"].value_counts().to_dict(),
-        "por_nivel": limpio["Nivel_Soporte"].value_counts().to_dict(),
+        "total": int(len(df)),
+        "por_estado": df["Estado"].value_counts().to_dict(),
+        "por_prioridad": df["Prioridad"].value_counts().to_dict(),
+        "por_tipo": df["Tipo_Incidencia"].value_counts().to_dict(),
+        "por_nivel": df["Nivel_Soporte"].value_counts().to_dict(),
     }
 
 

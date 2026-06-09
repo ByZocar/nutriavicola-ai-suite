@@ -15,13 +15,23 @@ import pandas as pd
 import plotly.express as px
 import streamlit as st
 
-from nutria_ai.datos import ingesta, limpieza
+from nutria_ai import config
 
 
 @st.cache_data
 def cargar_tickets() -> pd.DataFrame:
-    """Lee y limpia los tickets una sola vez (cache de Streamlit)."""
-    return limpieza.limpiar_tickets(ingesta.cargar_tickets())
+    """
+    Lee los tickets desde el CSV procesado (data/processed/).
+
+    En produccion (contenedor) no existen los datos crudos, por eso leemos
+    directamente el artefacto ya limpio que si esta versionado en el repo.
+    """
+    if not config.RUTA_TICKETS_LIMPIOS.exists():
+        raise FileNotFoundError(
+            f"No se encontro el archivo de tickets procesados en: {config.RUTA_TICKETS_LIMPIOS}. "
+            "Ejecuta primero: python -m nutria_ai.datos.pipeline"
+        )
+    return pd.read_csv(config.RUTA_TICKETS_LIMPIOS, parse_dates=["Última actualización", "Fecha de Apertura"])
 
 
 def main() -> None:
