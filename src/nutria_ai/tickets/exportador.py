@@ -15,18 +15,45 @@ from pathlib import Path
 import pandas as pd
 
 
+def _icono_nivel(nivel: str) -> str:
+    """Icono visual por nivel de soporte para facilitar el escaneo rapido."""
+    iconos = {"Nivel 1": "🟢", "Nivel 2": "🟡", "Nivel 3": "🔴"}
+    return iconos.get(str(nivel).strip(), "⚪")
+
+
+def construir_resumen_texto(tickets: list[dict]) -> str:
+    """
+    Genera un resumen en texto plano con formato legible para el chat.
+
+    Cada ticket ocupa dos lineas: titulo/area y nivel. Sin JSON, sin parseo,
+    listo para mostrarse directamente en el mensaje del agente.
+    """
+    if not tickets:
+        return "No hay tickets críticos pendientes en este momento."
+
+    lineas = [f"*{len(tickets)} tickets críticos pendientes:*\n"]
+    for t in tickets:
+        icono = _icono_nivel(t.get("Nivel_Soporte", ""))
+        lineas.append(
+            f"{icono} *#{t.get('ID', '?')}* — {t.get('Título', 'Sin título')}\n"
+            f"   Área: {t.get('Área_Solicitante', '?')} · {t.get('Nivel_Soporte', '?')}"
+        )
+    return "\n".join(lineas)
+
+
 def construir_payload(df_criticos: pd.DataFrame) -> dict:
     """
     Arma el diccionario que se serializara a JSON.
 
-    El campo 'total_criticos' es el dato que el Agente de Soporte TI usara para
-    responder al usuario sin tener que contar los registros por su cuenta.
+    Incluye `resumen_texto`: texto ya formateado para mostrar en el chat sin
+    pasar por el LLM. El agente solo lo muestra, sin gasto de tokens ni latencia.
     """
     registros = json.loads(df_criticos.to_json(orient="records", date_format="iso"))
     return {
         "generado_en": datetime.now().isoformat(timespec="seconds"),
         "criterio": {"estado": "Pendiente", "prioridad": "Alta"},
         "total_criticos": int(len(df_criticos)),
+        "resumen_texto": construir_resumen_texto(registros),
         "tickets": registros,
     }
 

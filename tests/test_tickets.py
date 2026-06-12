@@ -42,6 +42,32 @@ def test_payload_incluye_conteo(tmp_path):
     assert salida.exists()
 
 
+def test_payload_incluye_resumen_texto():
+    """El payload debe incluir un resumen en texto listo para el chat."""
+    df = pd.DataFrame({
+        "ID": [6565],
+        "Título": ["Cambio contraseña de SIESa"],
+        "Estado": ["Pendiente"],
+        "Prioridad": ["Alta"],
+        "Área_Solicitante": ["Calidad"],
+        "Nivel_Soporte": ["Nivel 3"],
+    })
+    payload = exportador.construir_payload(df)
+    assert "resumen_texto" in payload
+    resumen = payload["resumen_texto"]
+    # Debe mostrar ID, titulo, area y nivel (legible, no JSON crudo)
+    assert "6565" in resumen
+    assert "Calidad" in resumen
+    assert "Nivel 3" in resumen
+    assert "{" not in resumen  # no puede ser JSON crudo
+
+
+def test_resumen_texto_vacio():
+    """Con cero tickets el resumen debe decirlo, no mostrar una lista vacia."""
+    payload = exportador.construir_payload(pd.DataFrame(columns=["ID", "Título", "Área_Solicitante", "Nivel_Soporte"]))
+    assert "No hay" in payload["resumen_texto"]
+
+
 def test_cli_archivo_inexistente_devuelve_codigo_error(tmp_path):
     """La CLI debe devolver 1 (no romper) si el archivo de entrada no existe."""
     codigo = cli.ejecutar(tmp_path / "no_existe.txt", tmp_path / "salida.json")
