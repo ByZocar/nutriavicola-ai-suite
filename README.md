@@ -33,7 +33,7 @@ suite cubre dos procesos y los unifica en un solo canal:
 
 ## Arquitectura
 
-Arquitectura general
+![Arquitectura general](diagramas/img/arquitectura_general.png)
 
 - Un **orquestador** en Copilot Studio recibe al usuario, lo saluda y reconoce la intención.
 - Según la intención, enruta al **sub-flujo de Certificados (RRHH)** o al de **Soporte TI**.
@@ -41,9 +41,18 @@ Arquitectura general
 - La **seguridad es transversal**: identidad de Entra ID, validación de pertenencia del
 documento, enlaces firmados que caducan y contención de errores.
 
-Diagramas disponibles (PDF exportado en `diagramas/`):
+### El agente en Copilot Studio (Retos 1, 2 y 3)
+
+Esto es lo que se construyó dentro de Copilot Studio: un solo agente orquestador con sus
+topics, el detalle del flujo de certificados (con reintentos, validación de identidad y
+escalamiento) y el de tickets (con respuestas generativas).
+
+![Agente en Copilot Studio](diagramas/img/flujo_agente_copilot.png)
+
+Diagramas disponibles (HTML fuente + PDF exportado en `diagramas/`):
 [arquitectura general](diagramas/arquitectura_general.pdf),
 [arquitectura de seguridad](diagramas/arquitectura_seguridad.pdf),
+[agente en Copilot Studio](diagramas/flujo_agente_copilot.pdf),
 [flujo del orquestador](diagramas/flujo_orquestador.pdf),
 [flujo de certificados](diagramas/flujo_certificados.pdf),
 [flujo de soporte TI](diagramas/flujo_soporte_ti.pdf) y
@@ -51,7 +60,7 @@ Diagramas disponibles (PDF exportado en `diagramas/`):
 
 ## Seguridad (defensa en profundidad)
 
-Arquitectura de seguridad
+![Arquitectura de seguridad](diagramas/img/arquitectura_seguridad.png)
 
 El certificado laboral es un documento con datos personales, así que el diseño asume que
 cualquier punto puede fallar o ser atacado y protege en varias capas independientes:
@@ -78,16 +87,33 @@ de Nutriavícola. Vistas previas del despliegue (HTML → PDF en `diagramas/cana
 **Microsoft Teams** — canal principal del personal administrativo; la identidad de Entra ID
 fluye automáticamente.
 
-Mockup Teams
+![Mockup Teams](diagramas/img/mockup_teams.png)
 
 **Web (intranet)** — widget embebido vía iframe en el portal del colaborador.
 
-Mockup Web
+![Mockup Web](diagramas/img/mockup_web.png)
 
-**WhatsApp** (fase posterior, vía Azure Bot Service) — para el personal de planta y campo que
-no usa Teams ni correo corporativo.
+**WhatsApp** (vía Azure Bot Service) — para el personal de planta y campo que no usa Teams ni
+correo corporativo.
 
-Mockup WhatsApp
+![Mockup WhatsApp](diagramas/img/mockup_whatsapp.png)
+
+### Artefactos de integración
+
+La configuración técnica real de cada canal (no mockups) está en
+[`copilot_studio/canales/`](copilot_studio/canales/):
+
+- **Teams:** [`teams/manifest.json`](copilot_studio/canales/teams/manifest.json) — manifiesto
+  de la app (formato oficial v1.16) que se publica en el catálogo de la organización.
+- **Web:** [`web/index.html`](copilot_studio/canales/web/index.html) — Portal del Colaborador
+  con el agente embebido vía iframe; se puede abrir en el navegador para verificar.
+- **WhatsApp:** [`whatsapp/canal_whatsapp.json`](copilot_studio/canales/whatsapp/canal_whatsapp.json)
+  — configuración del canal por Azure Bot Service (secretos por variables de entorno).
+
+Estado y verificación de cada uno: [`copilot_studio/canales/README.md`](copilot_studio/canales/README.md).
+
+> La publicación a producción en el tenant requiere licencia de Copilot Studio; la integración
+> quedó construida y configurada, lista para activarse al asignar la licencia.
 
 ## El extra unificado
 
@@ -258,6 +284,7 @@ diagramas/          # HTML fuente + PDF exportados
   canales/          # mockups de despliegue (Teams, Web, WhatsApp)
   img/              # PNG embebidos en este README
 copilot_studio/     # exportes y documentación de los agentes
+  canales/          # integración real con Teams, Web y WhatsApp
 presentacion/       # guion de sustentación
 .github/workflows/  # integración continua + keep-alive
 ```

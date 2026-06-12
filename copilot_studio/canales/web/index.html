@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portal del Colaborador - Nutriavícola</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: "Segoe UI", Arial, sans-serif; color: #1b1b2f; background: #f4f6f8; }
+    header { background: #1f4e79; color: #fff; padding: 14px 28px; display: flex; align-items: center; gap: 12px; }
+    header .marca { font-weight: 700; font-size: 18px; }
+    header nav { margin-left: auto; font-size: 14px; opacity: 0.92; }
+    header nav a { color: #fff; text-decoration: none; margin-left: 18px; }
+    main { max-width: 1100px; margin: 0 auto; padding: 36px 28px; }
+    .hero h1 { color: #1f4e79; font-size: 26px; margin-bottom: 10px; }
+    .hero p { color: #555; font-size: 15px; max-width: 640px; line-height: 1.55; }
+    .cards { display: flex; gap: 16px; margin-top: 28px; flex-wrap: wrap; }
+    .card { flex: 1; min-width: 220px; background: #fff; border: 1px solid #e4e8ec; border-radius: 10px;
+            padding: 18px; }
+    .card h3 { color: #1f4e79; font-size: 16px; margin-bottom: 6px; }
+    .card p { color: #555; font-size: 13.5px; line-height: 1.5; }
+
+    /* Widget conversacional embebido (canal "Custom website" de Copilot Studio) */
+    .chat-launcher { position: fixed; right: 24px; bottom: 24px; z-index: 1000; }
+    .chat-panel {
+      position: fixed; right: 24px; bottom: 90px; width: 380px; height: 560px;
+      border-radius: 14px; overflow: hidden; box-shadow: 0 10px 40px rgba(0,0,0,0.22);
+      background: #fff; display: none; z-index: 1000;
+    }
+    .chat-panel.abierto { display: block; }
+    .chat-panel iframe { width: 100%; height: 100%; border: none; }
+    .btn-chat {
+      width: 60px; height: 60px; border-radius: 50%; background: #2e7d32; color: #fff;
+      border: none; cursor: pointer; font-size: 26px; box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+    }
+    footer { text-align: center; color: #8a94a0; font-size: 12px; padding: 24px; }
+  </style>
+</head>
+<body>
+  <header>
+    <span class="marca">Nutriavícola</span>
+    <span>· Portal del Colaborador</span>
+    <nav>
+      <a href="#">Inicio</a><a href="#">Nómina</a><a href="#">Soporte</a><a href="#">Mi perfil</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <h1>Bienvenido al Portal del Colaborador</h1>
+      <p>Gestiona tus solicitudes de Recursos Humanos y Soporte TI en un solo lugar. El
+         Asistente Nutriavícola te acompaña 24/7: solicita tu certificado laboral o consulta
+         el estado de tus tickets críticos sin filas ni esperas, con respaldo humano cuando
+         lo necesites.</p>
+      <div class="cards">
+        <div class="card"><h3>Certificado laboral</h3>
+          <p>Solicítalo y descárgalo al instante con un enlace seguro. Tu identidad se valida
+             automáticamente.</p></div>
+        <div class="card"><h3>Soporte TI</h3>
+          <p>Consulta cuántos tickets críticos hay pendientes y su prioridad.</p></div>
+        <div class="card"><h3>Autoservicio con respaldo</h3>
+          <p>Si algo falla, el asistente te transfiere con una persona del área correcta.</p></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Widget del agente: canal Web (Custom website) de Copilot Studio.
+       El iframe carga el agente publicado "crf4b_AsistenteNutriavicola". -->
+  <div class="chat-panel" id="panelChat">
+    <iframe
+      title="Asistente Nutriavícola"
+      src="https://copilotstudio.microsoft.com/environments/Default-693cbea0-4ef9-4254-8977-76e05cb5f556/bots/crf4b_AsistenteNutriavicola/webchat?__version__=2">
+    </iframe>
+  </div>
+  <div class="chat-launcher">
+    <button class="btn-chat" onclick="document.getElementById('panelChat').classList.toggle('abierto')"
+            title="Abrir el asistente">&#128172;</button>
+  </div>
+
+  <footer>© Nutriavícola S.A.S. · Asistente impulsado por Microsoft Copilot Studio</footer>
+</body>
+</html>

@@ -1,0 +1,30 @@
+{
+  "canal": "whatsapp",
+  "descripcion": "Canal de WhatsApp del Asistente Nutriavícola vía Azure Bot Service",
+  "azureBot": {
+    "nombreRecurso": "bot-asistente-nutriavicola",
+    "botSchemaName": "crf4b_AsistenteNutriavicola",
+    "entorno": "Default-693cbea0-4ef9-4254-8977-76e05cb5f556",
+    "messagingEndpoint": "https://nutriavicola.azurewebsites.net/api/messages"
+  },
+  "proveedor": {
+    "tipo": "twilio",
+    "numeroWhatsAppBusiness": "+57XXXXXXXXXX",
+    "accountSid": "${TWILIO_ACCOUNT_SID}",
+    "authToken": "${TWILIO_AUTH_TOKEN}"
+  },
+  "mensajes": {
+    "bienvenida": "¡Hola! Soy el asistente de Nutriavícola. Puedo ayudarte con tu certificado laboral o con tus tickets de soporte.",
+    "plantillasHSM": [
+      {
+        "nombre": "certificado_listo",
+        "idioma": "es",
+        "cuerpo": "Tu certificado laboral está listo. Descárgalo en el enlace seguro: {{1}}"
+      }
+    ]
+  },
+  "seguridad": {
+    "secretosEn": "variables de entorno / Azure Key Vault",
+    "nota": "Los tokens del proveedor NUNCA se versionan en el repositorio."
+  }
+}
