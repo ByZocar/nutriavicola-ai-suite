@@ -15,6 +15,8 @@ IA por encima de lo solicitado.
 
 - [Qué resuelve](#qué-resuelve)
 - [Arquitectura](#arquitectura)
+- [Seguridad (defensa en profundidad)](#seguridad-defensa-en-profundidad)
+- [Canales de despliegue](#canales-de-despliegue)
 - [El extra unificado](#el-extra-unificado)
 - [Estructura del repositorio](#estructura-del-repositorio)
 - [Cómo ejecutar](#cómo-ejecutar)
@@ -31,17 +33,61 @@ suite cubre dos procesos y los unifica en un solo canal:
 
 ## Arquitectura
 
-Diagramas en `diagramas/` (HTML fuente + PDF exportado, ver Fase 6). Resumen:
+![Arquitectura general](diagramas/img/arquitectura_general.png)
 
 - Un **orquestador** en Copilot Studio recibe al usuario, lo saluda y reconoce la intención.
 - Según la intención, enruta al **sub-flujo de Certificados (RRHH)** o al de **Soporte TI**.
-- Los agentes invocan una **API en Python** (el extra) como acción externa.
+- Los agentes invocan una **API en Python** (el extra) como acción externa, protegida con API key.
+- La **seguridad es transversal**: identidad de Entra ID, validación de pertenencia del
+  documento, enlaces firmados que caducan y contención de errores.
 
-Diagramas disponibles: [arquitectura general](diagramas/arquitectura_general.pdf),
+Diagramas disponibles (HTML fuente + PDF exportado en `diagramas/`):
+[arquitectura general](diagramas/arquitectura_general.pdf),
+[arquitectura de seguridad](diagramas/arquitectura_seguridad.pdf),
 [flujo del orquestador](diagramas/flujo_orquestador.pdf),
 [flujo de certificados](diagramas/flujo_certificados.pdf),
 [flujo de soporte TI](diagramas/flujo_soporte_ti.pdf) y
 [flujo de datos del extra](diagramas/flujo_datos_extra.pdf).
+
+## Seguridad (defensa en profundidad)
+
+![Arquitectura de seguridad](diagramas/img/arquitectura_seguridad.png)
+
+El certificado laboral es un documento con datos personales, así que el diseño asume que
+cualquier punto puede fallar o ser atacado y protege en varias capas independientes:
+
+1. **Identidad (Entra ID):** inicio de sesión obligatorio. El correo del usuario autenticado
+   viaja al backend como prueba de identidad (`System.User.PrincipalName`).
+2. **Validación de pertenencia:** la API verifica que el documento solicitado pertenezca al
+   correo autenticado. Nadie puede pedir el certificado de otra persona
+   (`generador.validar_identidad`).
+3. **API key (`X-API-Key`):** solo Copilot Studio/Power Automate con la clave pueden invocar
+   la API. Una petición de internet sin clave recibe `401` (`api/seguridad.py`).
+4. **Enlace de descarga firmado:** el PDF se entrega con un token HMAC que caduca (15 min).
+   El documento viaja dentro del token, no en la URL: el enlace no es adivinable.
+5. **Privacidad del dato (PII):** dataset sintético sin datos reales; los secretos viven en
+   variables de entorno, nunca en el repositorio.
+6. **Contención conversacional:** los errores técnicos no se filtran al usuario; hay
+   moderación de contenido, tres reintentos y escalamiento a un humano ante abuso o fallo.
+
+## Canales de despliegue
+
+El mismo agente de Copilot Studio se publica en varios canales del ecosistema Microsoft 365
+de Nutriavícola. Vistas previas del despliegue (HTML → PDF en `diagramas/canales/`):
+
+**Microsoft Teams** — canal principal del personal administrativo; la identidad de Entra ID
+fluye automáticamente.
+
+![Mockup Teams](diagramas/img/mockup_teams.png)
+
+**Web (intranet)** — widget embebido vía iframe en el portal del colaborador.
+
+![Mockup Web](diagramas/img/mockup_web.png)
+
+**WhatsApp** (fase posterior, vía Azure Bot Service) — para el personal de planta y campo que
+no usa Teams ni correo corporativo.
+
+![Mockup WhatsApp](diagramas/img/mockup_whatsapp.png)
 
 ## El extra unificado
 
@@ -107,9 +153,11 @@ El extra es un solo producto en Python, ejecutable y desplegable, que conecta co
 agentes de Copilot Studio. Cada componente responde a una razón concreta:
 
 - **Certificado en PDF (`certificados/generador.py`):** implementa de verdad la "acción
-  externa" que el Reto 1 solo pide mencionar. Valida documento + área contra el dataset
-  y genera un certificado laboral formal en PDF. Si el empleado no existe, lanza un error
-  que el agente convierte en transferencia a un humano.
+  externa" que el Reto 1 solo pide mencionar. Valida documento + área contra el dataset,
+  verifica que el documento pertenezca a la identidad autenticada y genera un certificado
+  laboral formal en PDF, entregado por un enlace firmado que caduca. Si el empleado no existe
+  o la identidad no coincide, devuelve `exito: false` y el agente lo maneja con reintentos y
+  escalamiento a un humano.
 - **Clasificador (`clasificador/modelo.py`):** los tickets nuevos llegan sin categoría ni
   técnico. Un modelo TF-IDF + Naive Bayes sugiere el tipo de incidencia y el nivel de
   soporte a partir del título, con su confianza. Es liviano y honesto: el dataset es
@@ -157,8 +205,8 @@ push y pull request a `main`.
 PYTHONPATH=src python -m pytest -q
 ```
 
-Actualmente: **22 pruebas** cubriendo datos, filtrado, certificado, clasificador,
-orquestador y API.
+Actualmente: **32 pruebas** cubriendo datos, filtrado, certificado, clasificador,
+orquestador, API y la capa de seguridad (API key, URLs firmadas y validación de identidad).
 
 ### Agentes en Copilot Studio (Fase 5)
 
@@ -203,11 +251,15 @@ de certificados, flujo de soporte TI y flujo de datos del extra.
 
 ```
 src/nutria_ai/      # código del extra (datos, tickets, certificados, clasificador, api, orquestador, dashboard)
+  api/seguridad.py  # API key + URLs firmadas (capa de seguridad)
 data/               # raw (ignorado) y processed (versionable, sintético)
-tests/              # pruebas con pytest
+tests/              # pruebas con pytest (32)
 diagramas/          # HTML fuente + PDF exportados
+  canales/          # mockups de despliegue (Teams, Web, WhatsApp)
+  img/              # PNG embebidos en este README
 copilot_studio/     # exportes y documentación de los agentes
-.github/workflows/  # integración continua
+presentacion/       # guion de sustentación
+.github/workflows/  # integración continua + keep-alive
 ```
 
 ## Cómo ejecutar
@@ -250,6 +302,8 @@ PYTHONPATH=src python -m pytest -q
   reproducibles.
 - **Control de versiones granular:** commits pequeños por sub-paso lógico, con historial
   legible que cuenta la evolución del desarrollo.
+- **Seguridad por capas:** el dato sensible (certificado) se protege con identidad, API key,
+  enlaces firmados y privacidad de datos. Ver la sección [Seguridad](#seguridad-defensa-en-profundidad).
 
 ## Retos de la prueba
 
@@ -269,4 +323,7 @@ PYTHONPATH=src python -m pytest -q
 
 API REST, generación real del certificado en PDF, clasificador de tickets nuevos,
 orquestador ejecutable, dashboard analítico contenedorizado y desplegable en Render,
-módulo de calidad de datos con dataset sintético (cero PII), pruebas (pytest) y CI.
+módulo de calidad de datos con dataset sintético (cero PII), una **capa de seguridad de
+nivel producción** (autenticación por API key, validación de identidad contra Entra ID y
+enlaces de descarga firmados con caducidad), estrategia **multicanal** (Teams, Web, WhatsApp)
+con vistas previas, pruebas (pytest) y CI.
