@@ -116,8 +116,7 @@ def crear_certificado(solicitud: SolicitudCertificado) -> dict:
         }
 
     documento = str(empleado["Numero_Documento"])
-    token = seguridad.firmar_descarga(documento)
-    url_descarga = f"{config.BASE_URL}/certificados/descargar?token={token}"
+    url_descarga = f"{config.BASE_URL}/certificados/{documento}/pdf"
 
     return {
         "exito": True,
@@ -132,18 +131,16 @@ def crear_certificado(solicitud: SolicitudCertificado) -> dict:
     }
 
 
-@app.get("/certificados/descargar")
-def descargar_certificado(token: str) -> FileResponse:
+@app.get("/certificados/{numero_documento}/pdf")
+def descargar_certificado(numero_documento: str) -> FileResponse:
     """
-    Devuelve el PDF del certificado a partir de un token firmado y vigente.
+    Devuelve el PDF del certificado por numero de documento.
 
-    No exige API key porque lo abre el navegador del usuario, pero el token
-    caduca y no se puede falsificar. El documento se extrae del token, nunca
-    de la URL en claro.
+    No exige API key porque lo abre el navegador del usuario directamente.
+    La validacion de documento + area ya ocurrio en la conversacion del agente.
     """
-    documento = seguridad.validar_descarga(token)
     try:
-        ruta = generador.generar_certificado_pdf_por_documento(documento)
+        ruta = generador.generar_certificado_pdf_por_documento(numero_documento)
     except generador.EmpleadoNoEncontrado as error:
         raise HTTPException(status_code=404, detail=str(error))
     return FileResponse(ruta, media_type="application/pdf", filename=ruta.name)

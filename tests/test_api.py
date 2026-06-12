@@ -3,7 +3,6 @@
 from fastapi.testclient import TestClient
 
 from nutria_ai import config
-from nutria_ai.api import seguridad
 from nutria_ai.api.app import app
 
 cliente = TestClient(app)
@@ -44,8 +43,8 @@ def test_clasificador_sugiere():
     assert "tipo_incidencia_sugerido" in respuesta.json()
 
 
-def test_certificado_valido_devuelve_url_firmada():
-    """Un empleado valido debe responder con un enlace de descarga firmado."""
+def test_certificado_valido_devuelve_url_descarga():
+    """Un empleado valido debe responder con exito y un enlace de descarga."""
     respuesta = cliente.post(
         "/certificados",
         json={"numero_documento": "1010000003", "area": "Gestión Humana"},
@@ -53,23 +52,20 @@ def test_certificado_valido_devuelve_url_firmada():
     assert respuesta.status_code == 200
     cuerpo = respuesta.json()
     assert cuerpo["exito"] is True
-    # La URL ya no expone el documento: usa un token firmado
-    assert "/certificados/descargar?token=" in cuerpo["url_descarga"]
-    assert "1010000003" not in cuerpo["url_descarga"]
+    assert "/certificados/1010000003/pdf" in cuerpo["url_descarga"]
 
 
-def test_descargar_con_token_valido():
-    """Con un token firmado valido se debe poder descargar el PDF."""
-    token = seguridad.firmar_descarga("1010000003")
-    respuesta = cliente.get(f"/certificados/descargar?token={token}")
+def test_descargar_pdf_por_documento():
+    """La URL de descarga directa debe devolver el PDF del empleado."""
+    respuesta = cliente.get("/certificados/1010000003/pdf")
     assert respuesta.status_code == 200
     assert respuesta.headers["content-type"] == "application/pdf"
 
 
-def test_descargar_con_token_invalido_rechaza():
-    """Un token falsificado debe ser rechazado con 401."""
-    respuesta = cliente.get("/certificados/descargar?token=token-falso-123")
-    assert respuesta.status_code == 401
+def test_descargar_pdf_documento_inexistente():
+    """Un documento que no existe debe devolver 404."""
+    respuesta = cliente.get("/certificados/0000000000/pdf")
+    assert respuesta.status_code == 404
 
 
 def test_api_key_obligatoria_en_produccion(monkeypatch):
