@@ -33,15 +33,15 @@ suite cubre dos procesos y los unifica en un solo canal:
 
 ## Arquitectura
 
-![Arquitectura general](diagramas/img/arquitectura_general.png)
+Arquitectura general
 
 - Un **orquestador** en Copilot Studio recibe al usuario, lo saluda y reconoce la intención.
 - Según la intención, enruta al **sub-flujo de Certificados (RRHH)** o al de **Soporte TI**.
 - Los agentes invocan una **API en Python** (el extra) como acción externa, protegida con API key.
 - La **seguridad es transversal**: identidad de Entra ID, validación de pertenencia del
-  documento, enlaces firmados que caducan y contención de errores.
+documento, enlaces firmados que caducan y contención de errores.
 
-Diagramas disponibles (HTML fuente + PDF exportado en `diagramas/`):
+Diagramas disponibles (PDF exportado en `diagramas/`):
 [arquitectura general](diagramas/arquitectura_general.pdf),
 [arquitectura de seguridad](diagramas/arquitectura_seguridad.pdf),
 [flujo del orquestador](diagramas/flujo_orquestador.pdf),
@@ -51,24 +51,24 @@ Diagramas disponibles (HTML fuente + PDF exportado en `diagramas/`):
 
 ## Seguridad (defensa en profundidad)
 
-![Arquitectura de seguridad](diagramas/img/arquitectura_seguridad.png)
+Arquitectura de seguridad
 
 El certificado laboral es un documento con datos personales, así que el diseño asume que
 cualquier punto puede fallar o ser atacado y protege en varias capas independientes:
 
 1. **Identidad (Entra ID):** inicio de sesión obligatorio. El correo del usuario autenticado
-   viaja al backend como prueba de identidad (`System.User.PrincipalName`).
+  viaja al backend como prueba de identidad (`System.User.PrincipalName`).
 2. **Validación de pertenencia:** la API verifica que el documento solicitado pertenezca al
-   correo autenticado. Nadie puede pedir el certificado de otra persona
+  correo autenticado. Nadie puede pedir el certificado de otra persona
    (`generador.validar_identidad`).
 3. **API key (`X-API-Key`):** solo Copilot Studio/Power Automate con la clave pueden invocar
-   la API. Una petición de internet sin clave recibe `401` (`api/seguridad.py`).
+  la API. Una petición de internet sin clave recibe `401` (`api/seguridad.py`).
 4. **Enlace de descarga firmado:** el PDF se entrega con un token HMAC que caduca (15 min).
-   El documento viaja dentro del token, no en la URL: el enlace no es adivinable.
+  El documento viaja dentro del token, no en la URL: el enlace no es adivinable.
 5. **Privacidad del dato (PII):** dataset sintético sin datos reales; los secretos viven en
-   variables de entorno, nunca en el repositorio.
+  variables de entorno, nunca en el repositorio.
 6. **Contención conversacional:** los errores técnicos no se filtran al usuario; hay
-   moderación de contenido, tres reintentos y escalamiento a un humano ante abuso o fallo.
+  moderación de contenido, tres reintentos y escalamiento a un humano ante abuso o fallo.
 
 ## Canales de despliegue
 
@@ -78,16 +78,16 @@ de Nutriavícola. Vistas previas del despliegue (HTML → PDF en `diagramas/cana
 **Microsoft Teams** — canal principal del personal administrativo; la identidad de Entra ID
 fluye automáticamente.
 
-![Mockup Teams](diagramas/img/mockup_teams.png)
+Mockup Teams
 
 **Web (intranet)** — widget embebido vía iframe en el portal del colaborador.
 
-![Mockup Web](diagramas/img/mockup_web.png)
+Mockup Web
 
 **WhatsApp** (fase posterior, vía Azure Bot Service) — para el personal de planta y campo que
 no usa Teams ni correo corporativo.
 
-![Mockup WhatsApp](diagramas/img/mockup_whatsapp.png)
+Mockup WhatsApp
 
 ## El extra unificado
 
@@ -101,16 +101,16 @@ El módulo `src/nutria_ai/datos/` transforma datos crudos y sensibles en datos c
 y seguros para ejecutar todo el proyecto. Se decidió así por estas razones:
 
 - **Ingesta (`ingesta.py`):** lee el Excel de empleados y el TXT de tickets (CSV con `;`),
-  validando que el archivo exista y tolerando distintos encodings (UTF-8 / latin-1).
+validando que el archivo exista y tolerando distintos encodings (UTF-8 / latin-1).
 - **Limpieza (`limpieza.py`):** los datos reales venían sucios. El salario llegaba como
-  texto (`"$ 3.500.000"`) y se normaliza a número; las fechas se parsean a `datetime`;
-  el `N/A` de los activos se vuelve nulo real; y los campos vacíos de `Técnico_Asignado`
-  y `Categoría` se marcan como `Sin asignar` (justo lo que el clasificador completará).
+texto (`"$ 3.500.000"`) y se normaliza a número; las fechas se parsean a `datetime`;
+el `N/A` de los activos se vuelve nulo real; y los campos vacíos de `Técnico_Asignado`
+y `Categoría` se marcan como `Sin asignar` (justo lo que el clasificador completará).
 - **Perfilado (`perfilado.py`):** genera un reporte de calidad (filas, nulos, duplicados
-  y dominios categóricos). Sirve para sustentar decisiones y detectar problemas temprano.
+y dominios categóricos). Sirve para sustentar decisiones y detectar problemas temprano.
 - **Dataset sintético (`sintetico.py`):** genera empleados ficticios con la misma
-  estructura y dominios realistas, de forma reproducible (semilla fija). Es la pieza que
-  nos permite ejecutar y publicar el proyecto **sin exponer PII real**.
+estructura y dominios realistas, de forma reproducible (semilla fija). Es la pieza que
+nos permite ejecutar y publicar el proyecto **sin exponer PII real**.
 
 Para regenerar los artefactos procesados:
 
@@ -126,15 +126,15 @@ perfiles de calidad `perfil_tickets.json` y `perfil_empleados.json`.
 El módulo `src/nutria_ai/tickets/` cumple el Reto 2: lee el archivo de tickets, filtra los
 que están `Pendiente` con prioridad `Alta` y genera un JSON consumible por un agente.
 
-- **`filtrado.py`:** aísla la regla de negocio (qué es un ticket crítico). El filtro es
-  tolerante a mayúsculas/minúsculas y espacios, y valida que existan las columnas
-  requeridas, lanzando `FormatoTicketsInvalido` con un mensaje claro si faltan.
-- **`exportador.py`:** arma el JSON con un campo `total_criticos` explícito (el dato que
-  el Agente de Soporte TI usará para responder "tienes N tickets críticos") más la lista
-  de tickets.
-- **`cli.py`:** une ingesta -> limpieza -> filtrado -> exportación en un comando, y maneja
-  los errores esperados (archivo no encontrado, vacío/corrupto, formato inválido)
-  devolviendo un código de salida en vez de romperse.
+- `**filtrado.py`:** aísla la regla de negocio (qué es un ticket crítico). El filtro es
+tolerante a mayúsculas/minúsculas y espacios, y valida que existan las columnas
+requeridas, lanzando `FormatoTicketsInvalido` con un mensaje claro si faltan.
+- `**exportador.py`:** arma el JSON con un campo `total_criticos` explícito (el dato que
+el Agente de Soporte TI usará para responder "tienes N tickets críticos") más la lista
+de tickets.
+- `**cli.py`:** une ingesta -> limpieza -> filtrado -> exportación en un comando, y maneja
+los errores esperados (archivo no encontrado, vacío/corrupto, formato inválido)
+devolviendo un código de salida en vez de romperse.
 
 Ejecución del Reto 2:
 
@@ -153,22 +153,22 @@ El extra es un solo producto en Python, ejecutable y desplegable, que conecta co
 agentes de Copilot Studio. Cada componente responde a una razón concreta:
 
 - **Certificado en PDF (`certificados/generador.py`):** implementa de verdad la "acción
-  externa" que el Reto 1 solo pide mencionar. Valida documento + área contra el dataset,
-  verifica que el documento pertenezca a la identidad autenticada y genera un certificado
-  laboral formal en PDF, entregado por un enlace firmado que caduca. Si el empleado no existe
-  o la identidad no coincide, devuelve `exito: false` y el agente lo maneja con reintentos y
-  escalamiento a un humano.
+externa" que el Reto 1 solo pide mencionar. Valida documento + área contra el dataset,
+verifica que el documento pertenezca a la identidad autenticada y genera un certificado
+laboral formal en PDF, entregado por un enlace firmado que caduca. Si el empleado no existe
+o la identidad no coincide, devuelve `exito: false` y el agente lo maneja con reintentos y
+escalamiento a un humano.
 - **Clasificador (`clasificador/modelo.py`):** los tickets nuevos llegan sin categoría ni
-  técnico. Un modelo TF-IDF + Naive Bayes sugiere el tipo de incidencia y el nivel de
-  soporte a partir del título, con su confianza. Es liviano y honesto: el dataset es
-  pequeño, su valor está en mostrar el flujo de pre-clasificación.
+técnico. Un modelo TF-IDF + Naive Bayes sugiere el tipo de incidencia y el nivel de
+soporte a partir del título, con su confianza. Es liviano y honesto: el dataset es
+pequeño, su valor está en mostrar el flujo de pre-clasificación.
 - **Orquestador real (`orquestador/`):** replica en Python la lógica del orquestador de
-  Copilot Studio. `enrutador.py` reconoce la intención (RRHH vs TI) y `cli.py` es un chat
-  que saluda, enruta y ejecuta el sub-flujo correcto. Es la prueba viva del Reto 3.
+Copilot Studio. `enrutador.py` reconoce la intención (RRHH vs TI) y `cli.py` es un chat
+que saluda, enruta y ejecuta el sub-flujo correcto. Es la prueba viva del Reto 3.
 - **API REST (`api/app.py`):** expone como servicio el filtrado, el resumen analítico, el
-  certificado y el clasificador. Es el punto que Copilot Studio invoca como acción externa.
+certificado y el clasificador. Es el punto que Copilot Studio invoca como acción externa.
 - **Dashboard (`dashboard/app.py`):** tablero de inteligencia de negocio (carga por
-  técnico, áreas críticas, prioridades, niveles), contenedorizado y desplegable online.
+técnico, áreas críticas, prioridades, niveles), contenedorizado y desplegable online.
 
 Ejecución de los componentes:
 
@@ -214,12 +214,12 @@ El núcleo de la prueba (los agentes y workflows) se construye en **Microsoft Co
 Studio**. La carpeta `copilot_studio/` deja todo listo para replicarlo y exportarlo:
 
 - `guia_construccion.md`: paso a paso de los tres agentes (frases, nodos, mensajes,
-  acción externa y fallback).
+acción externa y fallback).
 - `topics/agente_certificados.yaml` y `topics/agente_soporte_ti.yaml`: el "contrato"
-  estructurado de cada Topic (Retos 1 y 2).
+estructurado de cada Topic (Retos 1 y 2).
 - `orquestador.yaml`: el contrato del agente unificado (Reto 3).
 - `acciones/`: las specs HTTP de las acciones externas que conectan los agentes con la
-  API del extra (`POST /certificados` y `GET /tickets/criticos`).
+API del extra (`POST /certificados` y `GET /tickets/criticos`).
 
 #### Reto 3 - Ventajas de la arquitectura unificada (orquestador -> sub-flujos)
 
@@ -296,28 +296,28 @@ PYTHONPATH=src python -m pytest -q
 ## Decisiones de diseño
 
 - **PII fuera del repositorio:** los datos de empleados contienen documentos y salarios.
-  No se suben datos reales; se trabaja con un dataset sintético anonimizado de la misma
-  estructura. Es una decisión de seguridad y privacidad, no una limitación técnica.
+No se suben datos reales; se trabaja con un dataset sintético anonimizado de la misma
+estructura. Es una decisión de seguridad y privacidad, no una limitación técnica.
 - **Diagramas en HTML -> PDF**, no en markdown puro, para que sean profesionales y
-  reproducibles.
+reproducibles.
 - **Control de versiones granular:** commits pequeños por sub-paso lógico, con historial
-  legible que cuenta la evolución del desarrollo.
+legible que cuenta la evolución del desarrollo.
 - **Seguridad por capas:** el dato sensible (certificado) se protege con identidad, API key,
-  enlaces firmados y privacidad de datos. Ver la sección [Seguridad](#seguridad-defensa-en-profundidad).
+enlaces firmados y privacidad de datos. Ver la sección [Seguridad](#seguridad-defensa-en-profundidad).
 
 ## Retos de la prueba
 
 - **Reto 1 - Agente de certificados (RRHH):** diseño en Copilot Studio
-  (`copilot_studio/topics/agente_certificados.yaml` + guía) con frases desencadenantes,
-  validación de documento + área, acción externa y fallback. La acción externa está
-  implementada de verdad en el extra (`certificados/generador.py` + API).
+(`copilot_studio/topics/agente_certificados.yaml` + guía) con frases desencadenantes,
+validación de documento + área, acción externa y fallback. La acción externa está
+implementada de verdad en el extra (`certificados/generador.py` + API).
 - **Reto 2 - Tickets a JSON + agente TI:** script Python que filtra `Pendiente` + `Alta`
-  y genera el JSON (`tickets/`), más el agente de Soporte TI
-  (`copilot_studio/topics/agente_soporte_ti.yaml`) que consume el conteo.
+y genera el JSON (`tickets/`), más el agente de Soporte TI
+(`copilot_studio/topics/agente_soporte_ti.yaml`) que consume el conteo.
 - **Reto 3 - Orquestador unificado:** `copilot_studio/orquestador.yaml` y la prueba viva
-  en Python (`orquestador/`), con el párrafo de ventajas en la sección de Copilot Studio.
+en Python (`orquestador/`), con el párrafo de ventajas en la sección de Copilot Studio.
 - **Reto 4 - Control de versiones y documentación:** historial de commits granular por
-  sub-paso y este README.
+sub-paso y este README.
 
 ### Extra entregado (por encima de lo pedido)
 
