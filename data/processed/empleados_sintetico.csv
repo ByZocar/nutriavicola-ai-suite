@@ -1,51 +1,51 @@
-Numero_Documento,Nombre_Completo,Area,Cargo,Estado,Tipo_Contrato,Salario,Fecha_Ingreso,Fecha_Retiro
-1010000001,Patricia Luz Mena Vásquez,Calidad,Inspectora de Inocuidad,Retirado,Obra o Labor,6700000.0,2024-11-17,2026-09-29
-1010000002,Blanca Becerra,Inteligencia de Negocios,Analista de Datos,Retirado,Obra o Labor,8200000.0,2021-09-29,2025-01-25
-1010000003,Lizeth Pérez,Gestión Humana,Coordinadora de Selección,Activo,Fijo,5600000.0,2023-12-20,
-1010000004,Luis Eduardo Mosquera,Mantenimiento,Técnico Eléctrico,Activo,Fijo,4600000.0,2026-03-05,
-1010000005,Derly Liliana Caicedo,Logística,Conductor de Ruta,Activo,Obra o Labor,5900000.0,2023-03-10,
-1010000006,Ximena Jacqueline Ordóñez Gaviria,Ventas,Asesor Comercial TAT,Activo,Fijo,4800000.0,2020-11-06,
-1010000007,Alberto Fernando Cuesta,Gestión Humana,Psicóloga de Bienestar,Activo,Obra o Labor,2200000.0,2021-05-29,
-1010000008,Ana Liliana Villamil Bedoya,Ventas,Mercaderista,Activo,Obra o Labor,4100000.0,2023-08-21,
-1010000009,Lucy Yamile Castillo Martínez,Calidad,Microbióloga,Activo,Obra o Labor,5300000.0,2025-02-01,
-1010000010,Carlos Carlos Sarmiento Montoya,Producción,Operario de Mezcla,Activo,Obra o Labor,6700000.0,2022-10-21,
-1010000011,Johana López Gómez,Ventas,Ejecutivo de Cuentas,Activo,Indefinido,3200000.0,2021-09-30,
-1010000012,Liliana Stella Correa,Calidad,Inspectora de Inocuidad,Activo,Fijo,8300000.0,2022-12-18,
-1010000013,Brayan Herrera,Logística,Conductor de Ruta,Activo,Fijo,6800000.0,2024-10-03,
-1010000014,Johana López Pineda,Producción,Operario de Empaque,Retirado,Obra o Labor,7700000.0,2026-02-25,2028-02-14
-1010000015,Karen Reyes,Ventas,Asesor Comercial TAT,Retirado,Indefinido,5900000.0,2022-09-04,2024-01-27
-1010000016,María Olga García,Logística,Auxiliar de Bodega,Activo,Obra o Labor,2900000.0,2020-10-11,
-1010000017,Marcela Arboleda Salazar,Producción,Operario de Mezcla,Activo,Indefinido,8200000.0,2026-02-10,
-1010000018,Diego Sandoval,Logística,Montacarguista,Activo,Fijo,6900000.0,2021-08-21,
-1010000019,José Jaime Fernández,Ventas,Ejecutivo de Cuentas,Retirado,Indefinido,2200000.0,2021-12-02,2022-10-09
-1010000020,Andrés David Camacho,Calidad,Analista Físico-Químico,Retirado,Indefinido,8200000.0,2021-10-21,2022-06-22
-1010000021,Ingrid Lilia Ramírez López,Producción,Operario de Mezcla,Activo,Fijo,5800000.0,2023-11-21,
-1010000022,Gladys Castrillón,Gestión Humana,Analista de Nómina,Activo,Indefinido,2000000.0,2025-08-12,
-1010000023,Paola Diana Cardona,Gestión Humana,Psicóloga de Bienestar,Activo,Fijo,3600000.0,2025-03-27,
-1010000024,Inés Gabriela Caicedo,Mantenimiento,Mecánico Industrial,Activo,Indefinido,8200000.0,2025-09-04,
-1010000025,Adriana Ramos Leal,Logística,Conductor de Ruta,Retirado,Indefinido,3400000.0,2025-12-27,2027-10-22
-1010000026,Jorge Gustavo Ariza Páez,Gestión Humana,Coordinadora de Selección,Activo,Obra o Labor,7500000.0,2022-01-09,
-1010000027,Nancy Ríos,Producción,Supervisor de Granja,Activo,Obra o Labor,5300000.0,2021-09-26,
-1010000028,María Palacios Melo,Inteligencia de Negocios,Analista de Datos,Activo,Indefinido,2100000.0,2023-04-17,
-1010000029,Nancy María García Navarro,Calidad,Inspectora de Inocuidad,Activo,Obra o Labor,7900000.0,2021-02-24,
-1010000030,David Jhon Sandoval,Mantenimiento,Mecánico Industrial,Activo,Fijo,7100000.0,2024-06-13,
-1010000031,María Sandra Ortiz,Mantenimiento,Técnico Eléctrico,Retirado,Fijo,2100000.0,2023-03-08,2026-10-31
-1010000032,Mario Ospino,Producción,Operario de Empaque,Activo,Obra o Labor,8000000.0,2021-05-18,
-1010000033,Yuly Patricia González,Inteligencia de Negocios,Científica de Datos,Activo,Indefinido,8300000.0,2022-03-24,
-1010000034,Alberto Víctor Ortiz,Producción,Operario de Empaque,Activo,Fijo,4500000.0,2024-01-23,
-1010000035,María Fuentes,Logística,Conductor de Ruta,Retirado,Obra o Labor,4600000.0,2024-03-27,2026-04-12
-1010000036,Julio González Garcés,Producción,Operario de Mezcla,Activo,Obra o Labor,3200000.0,2023-09-28,
-1010000037,Fernanda Gómez Morales,Ventas,Asesor Comercial TAT,Activo,Indefinido,5800000.0,2023-12-05,
-1010000038,Adolfo Libardo Parra,Producción,Operario de Mezcla,Activo,Obra o Labor,3200000.0,2024-06-07,
-1010000039,Andrea Velandia,Producción,Supervisor de Granja,Activo,Fijo,4400000.0,2025-09-20,
-1010000040,Yolima Torres,Mantenimiento,Técnico Eléctrico,Activo,Fijo,5700000.0,2021-01-29,
-1010000041,Alejandra Isabel García Perdomo,Mantenimiento,Técnico Eléctrico,Activo,Fijo,7800000.0,2020-07-28,
-1010000042,Luz Manrique,Gestión Humana,Psicóloga de Bienestar,Activo,Indefinido,4600000.0,2022-06-02,
-1010000043,Óscar Federico González,Inteligencia de Negocios,Analista de Datos,Activo,Obra o Labor,3700000.0,2023-01-15,
-1010000044,Rosa María Vergara Valencia,Mantenimiento,Técnico Eléctrico,Activo,Fijo,2800000.0,2023-01-18,
-1010000045,Alexander Benavides Cortés,Calidad,Microbióloga,Activo,Indefinido,6600000.0,2022-04-15,
-1010000046,Natalia Suárez Vásquez,Calidad,Microbióloga,Activo,Indefinido,5100000.0,2024-12-02,
-1010000047,Miguel Óscar Rojas,Mantenimiento,Técnico Eléctrico,Activo,Fijo,3400000.0,2025-02-22,
-1010000048,Luis Efrén Moreno,Calidad,Inspectora de Inocuidad,Activo,Fijo,4100000.0,2023-07-11,
-1010000049,Ricardo Brayan Cárdenas Rivas,Logística,Conductor de Ruta,Retirado,Obra o Labor,3700000.0,2020-07-30,2022-06-11
-1010000050,Patricia Nubia Galindo Estrada,Calidad,Analista Físico-Químico,Activo,Indefinido,6700000.0,2023-05-26,
+Numero_Documento,Nombre_Completo,Correo,Area,Cargo,Estado,Tipo_Contrato,Salario,Fecha_Ingreso,Fecha_Retiro
+1010000001,Patricia Luz Mena Vásquez,patricia.luz001@nutriavicola.com,Calidad,Inspectora de Inocuidad,Retirado,Obra o Labor,6700000.0,2024-11-21,2026-10-03
+1010000002,Blanca Becerra,blanca.becerra002@nutriavicola.com,Inteligencia de Negocios,Analista de Datos,Retirado,Obra o Labor,8200000.0,2021-10-03,2025-01-29
+1010000003,Lizeth Pérez,lizeth.perez003@nutriavicola.com,Gestión Humana,Coordinadora de Selección,Activo,Fijo,5600000.0,2023-12-24,
+1010000004,Luis Eduardo Mosquera,luis.eduardo004@nutriavicola.com,Mantenimiento,Técnico Eléctrico,Activo,Fijo,4600000.0,2026-03-09,
+1010000005,Derly Liliana Caicedo,derly.liliana005@nutriavicola.com,Logística,Conductor de Ruta,Activo,Obra o Labor,5900000.0,2023-03-14,
+1010000006,Ximena Jacqueline Ordóñez Gaviria,ximena.jacqueline006@nutriavicola.com,Ventas,Asesor Comercial TAT,Activo,Fijo,4800000.0,2020-11-10,
+1010000007,Alberto Fernando Cuesta,alberto.fernando007@nutriavicola.com,Gestión Humana,Psicóloga de Bienestar,Activo,Obra o Labor,2200000.0,2021-06-02,
+1010000008,Ana Liliana Villamil Bedoya,ana.liliana008@nutriavicola.com,Ventas,Mercaderista,Activo,Obra o Labor,4100000.0,2023-08-25,
+1010000009,Lucy Yamile Castillo Martínez,lucy.yamile009@nutriavicola.com,Calidad,Microbióloga,Activo,Obra o Labor,5300000.0,2025-02-05,
+1010000010,Carlos Carlos Sarmiento Montoya,carlos.carlos010@nutriavicola.com,Producción,Operario de Mezcla,Activo,Obra o Labor,6700000.0,2022-10-25,
+1010000011,Johana López Gómez,johana.lopez011@nutriavicola.com,Ventas,Ejecutivo de Cuentas,Activo,Indefinido,3200000.0,2021-10-04,
+1010000012,Liliana Stella Correa,liliana.stella012@nutriavicola.com,Calidad,Inspectora de Inocuidad,Activo,Fijo,8300000.0,2022-12-22,
+1010000013,Brayan Herrera,brayan.herrera013@nutriavicola.com,Logística,Conductor de Ruta,Activo,Fijo,6800000.0,2024-10-07,
+1010000014,Johana López Pineda,johana.lopez014@nutriavicola.com,Producción,Operario de Empaque,Retirado,Obra o Labor,7700000.0,2026-03-01,2028-02-18
+1010000015,Karen Reyes,karen.reyes015@nutriavicola.com,Ventas,Asesor Comercial TAT,Retirado,Indefinido,5900000.0,2022-09-08,2024-01-31
+1010000016,María Olga García,maria.olga016@nutriavicola.com,Logística,Auxiliar de Bodega,Activo,Obra o Labor,2900000.0,2020-10-15,
+1010000017,Marcela Arboleda Salazar,marcela.arboleda017@nutriavicola.com,Producción,Operario de Mezcla,Activo,Indefinido,8200000.0,2026-02-14,
+1010000018,Diego Sandoval,diego.sandoval018@nutriavicola.com,Logística,Montacarguista,Activo,Fijo,6900000.0,2021-08-25,
+1010000019,José Jaime Fernández,jose.jaime019@nutriavicola.com,Ventas,Ejecutivo de Cuentas,Retirado,Indefinido,2200000.0,2021-12-06,2022-10-13
+1010000020,Andrés David Camacho,andres.david020@nutriavicola.com,Calidad,Analista Físico-Químico,Retirado,Indefinido,8200000.0,2021-10-25,2022-06-26
+1010000021,Ingrid Lilia Ramírez López,ingrid.lilia021@nutriavicola.com,Producción,Operario de Mezcla,Activo,Fijo,5800000.0,2023-11-25,
+1010000022,Gladys Castrillón,gladys.castrillon022@nutriavicola.com,Gestión Humana,Analista de Nómina,Activo,Indefinido,2000000.0,2025-08-16,
+1010000023,Paola Diana Cardona,paola.diana023@nutriavicola.com,Gestión Humana,Psicóloga de Bienestar,Activo,Fijo,3600000.0,2025-03-31,
+1010000024,Inés Gabriela Caicedo,ines.gabriela024@nutriavicola.com,Mantenimiento,Mecánico Industrial,Activo,Indefinido,8200000.0,2025-09-08,
+1010000025,Adriana Ramos Leal,adriana.ramos025@nutriavicola.com,Logística,Conductor de Ruta,Retirado,Indefinido,3400000.0,2025-12-31,2027-10-26
+1010000026,Jorge Gustavo Ariza Páez,jorge.gustavo026@nutriavicola.com,Gestión Humana,Coordinadora de Selección,Activo,Obra o Labor,7500000.0,2022-01-13,
+1010000027,Nancy Ríos,nancy.rios027@nutriavicola.com,Producción,Supervisor de Granja,Activo,Obra o Labor,5300000.0,2021-09-30,
+1010000028,María Palacios Melo,maria.palacios028@nutriavicola.com,Inteligencia de Negocios,Analista de Datos,Activo,Indefinido,2100000.0,2023-04-21,
+1010000029,Nancy María García Navarro,nancy.maria029@nutriavicola.com,Calidad,Inspectora de Inocuidad,Activo,Obra o Labor,7900000.0,2021-02-28,
+1010000030,David Jhon Sandoval,david.jhon030@nutriavicola.com,Mantenimiento,Mecánico Industrial,Activo,Fijo,7100000.0,2024-06-17,
+1010000031,María Sandra Ortiz,maria.sandra031@nutriavicola.com,Mantenimiento,Técnico Eléctrico,Retirado,Fijo,2100000.0,2023-03-12,2026-11-04
+1010000032,Mario Ospino,mario.ospino032@nutriavicola.com,Producción,Operario de Empaque,Activo,Obra o Labor,8000000.0,2021-05-22,
+1010000033,Yuly Patricia González,yuly.patricia033@nutriavicola.com,Inteligencia de Negocios,Científica de Datos,Activo,Indefinido,8300000.0,2022-03-28,
+1010000034,Alberto Víctor Ortiz,alberto.victor034@nutriavicola.com,Producción,Operario de Empaque,Activo,Fijo,4500000.0,2024-01-27,
+1010000035,María Fuentes,maria.fuentes035@nutriavicola.com,Logística,Conductor de Ruta,Retirado,Obra o Labor,4600000.0,2024-03-31,2026-04-16
+1010000036,Julio González Garcés,julio.gonzalez036@nutriavicola.com,Producción,Operario de Mezcla,Activo,Obra o Labor,3200000.0,2023-10-02,
+1010000037,Fernanda Gómez Morales,fernanda.gomez037@nutriavicola.com,Ventas,Asesor Comercial TAT,Activo,Indefinido,5800000.0,2023-12-09,
+1010000038,Adolfo Libardo Parra,adolfo.libardo038@nutriavicola.com,Producción,Operario de Mezcla,Activo,Obra o Labor,3200000.0,2024-06-11,
+1010000039,Andrea Velandia,andrea.velandia039@nutriavicola.com,Producción,Supervisor de Granja,Activo,Fijo,4400000.0,2025-09-24,
+1010000040,Yolima Torres,yolima.torres040@nutriavicola.com,Mantenimiento,Técnico Eléctrico,Activo,Fijo,5700000.0,2021-02-02,
+1010000041,Alejandra Isabel García Perdomo,alejandra.isabel041@nutriavicola.com,Mantenimiento,Técnico Eléctrico,Activo,Fijo,7800000.0,2020-08-01,
+1010000042,Luz Manrique,luz.manrique042@nutriavicola.com,Gestión Humana,Psicóloga de Bienestar,Activo,Indefinido,4600000.0,2022-06-06,
+1010000043,Óscar Federico González,oscar.federico043@nutriavicola.com,Inteligencia de Negocios,Analista de Datos,Activo,Obra o Labor,3700000.0,2023-01-19,
+1010000044,Rosa María Vergara Valencia,rosa.maria044@nutriavicola.com,Mantenimiento,Técnico Eléctrico,Activo,Fijo,2800000.0,2023-01-22,
+1010000045,Alexander Benavides Cortés,alexander.benavides045@nutriavicola.com,Calidad,Microbióloga,Activo,Indefinido,6600000.0,2022-04-19,
+1010000046,Natalia Suárez Vásquez,natalia.suarez046@nutriavicola.com,Calidad,Microbióloga,Activo,Indefinido,5100000.0,2024-12-06,
+1010000047,Miguel Óscar Rojas,miguel.oscar047@nutriavicola.com,Mantenimiento,Técnico Eléctrico,Activo,Fijo,3400000.0,2025-02-26,
+1010000048,Luis Efrén Moreno,luis.efren048@nutriavicola.com,Calidad,Inspectora de Inocuidad,Activo,Fijo,4100000.0,2023-07-15,
+1010000049,Ricardo Brayan Cárdenas Rivas,ricardo.brayan049@nutriavicola.com,Logística,Conductor de Ruta,Retirado,Obra o Labor,3700000.0,2020-08-03,2022-06-15
+1010000050,Patricia Nubia Galindo Estrada,patricia.nubia050@nutriavicola.com,Calidad,Analista Físico-Químico,Activo,Indefinido,6700000.0,2023-05-30,

@@ -1,9 +1,10 @@
 {
   "total_filas": 50,
-  "total_columnas": 9,
+  "total_columnas": 10,
   "columnas": [
     "Numero_Documento",
     "Nombre_Completo",
+    "Correo",
     "Area",
     "Cargo",
     "Estado",
@@ -15,6 +16,7 @@
   "nulos_por_columna": {
     "Numero_Documento": 0,
     "Nombre_Completo": 0,
+    "Correo": 0,
     "Area": 0,
     "Cargo": 0,
     "Estado": 0,

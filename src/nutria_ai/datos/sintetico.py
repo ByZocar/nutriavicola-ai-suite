@@ -9,10 +9,29 @@ demostrable sin exponer datos personales.
 
 from __future__ import annotations
 
+import unicodedata
 from datetime import datetime, timedelta
 
 import pandas as pd
 from faker import Faker
+
+# Dominio de correo corporativo (sirve para validar identidad contra Entra ID)
+DOMINIO_CORREO = "nutriavicola.com"
+
+
+def _correo_corporativo(nombre_completo: str, documento: str) -> str:
+    """
+    Construye un correo corporativo a partir del nombre.
+
+    Quita tildes y espacios. Agrega los ultimos 3 digitos del documento para
+    evitar choques entre homonimos. Asi simulamos el correo que tendria el
+    empleado en Microsoft 365 (Entra ID).
+    """
+    sin_tildes = unicodedata.normalize("NFKD", nombre_completo)
+    sin_tildes = sin_tildes.encode("ascii", "ignore").decode("ascii")
+    partes = sin_tildes.lower().split()
+    base = ".".join(partes[:2]) if len(partes) >= 2 else "".join(partes)
+    return f"{base}{documento[-3:]}@{DOMINIO_CORREO}"
 
 # Dominios realistas tomados de la estructura del negocio (avicola)
 AREAS = [
@@ -53,9 +72,12 @@ def generar_empleados_sinteticos(cantidad: int = 50, semilla: int = 42) -> pd.Da
         if estado == "Retirado":
             fecha_retiro = fecha_ingreso + timedelta(days=faker.random_int(180, 1500))
 
+        documento = str(1010000001 + indice)
+        nombre = faker.name()
         filas.append({
-            "Numero_Documento": str(1010000001 + indice),
-            "Nombre_Completo": faker.name(),
+            "Numero_Documento": documento,
+            "Nombre_Completo": nombre,
+            "Correo": _correo_corporativo(nombre, documento),
             "Area": area,
             "Cargo": cargo,
             "Estado": estado,

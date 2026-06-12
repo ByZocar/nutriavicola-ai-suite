@@ -24,6 +24,10 @@ class EmpleadoNoEncontrado(Exception):
     """Se lanza cuando no hay un empleado que coincida con documento + area."""
 
 
+class IdentidadNoCoincide(Exception):
+    """Se lanza cuando el documento solicitado no pertenece al usuario autenticado."""
+
+
 def _formatear_salario(valor: float) -> str:
     """Convierte 3500000.0 en '$ 3.500.000' para mostrarlo en el certificado."""
     return f"$ {int(valor):,}".replace(",", ".")
@@ -62,6 +66,26 @@ def buscar_empleado(numero_documento: str, area: str, df: pd.DataFrame | None = 
             f"No se encontro un empleado con documento {documento} en el area '{area}'."
         )
     return coincidencias.iloc[0].to_dict()
+
+
+def validar_identidad(empleado: dict, correo_solicitante: str | None) -> None:
+    """
+    Verifica que el documento solicitado pertenezca al usuario autenticado.
+
+    El correo viene de la identidad de Entra ID (el usuario logueado en Teams o
+    web). Si no coincide con el correo del empleado, se bloquea: nadie puede
+    pedir el certificado de otra persona. Si no llega correo (canal sin login)
+    no se aplica esta capa; la decision de exigirlo es del agente/canal.
+    """
+    if not correo_solicitante:
+        return  # canal sin identidad: no se valida aqui
+
+    correo_empleado = str(empleado.get("Correo", "")).strip().casefold()
+    if correo_empleado and correo_empleado != str(correo_solicitante).strip().casefold():
+        raise IdentidadNoCoincide(
+            "El documento solicitado no corresponde a tu identidad. "
+            "Solo puedes solicitar tu propio certificado."
+        )
 
 
 def buscar_por_documento(numero_documento: str, df: pd.DataFrame | None = None) -> dict:

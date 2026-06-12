@@ -55,6 +55,9 @@ class SolicitudCertificado(BaseModel):
 
     numero_documento: str = Field(..., examples=["1010000003"])
     area: str = Field(..., examples=["Gestión Humana"])
+    # Correo del usuario autenticado (Entra ID). Si llega, se valida que el
+    # documento le pertenezca. El agente en Teams/web lo envia siempre.
+    correo_solicitante: str | None = Field(default=None, examples=["lizeth.perez003@nutriavicola.com"])
 
 
 class SolicitudClasificacion(BaseModel):
@@ -102,8 +105,10 @@ def crear_certificado(solicitud: SolicitudCertificado) -> dict:
     """
     try:
         empleado = generador.buscar_empleado(solicitud.numero_documento, solicitud.area)
+        generador.validar_identidad(empleado, solicitud.correo_solicitante)
         generador.generar_certificado_pdf(solicitud.numero_documento, solicitud.area)
-    except generador.EmpleadoNoEncontrado as error:
+    except (generador.EmpleadoNoEncontrado, generador.IdentidadNoCoincide) as error:
+        # exito=false: el agente lo maneja conversacionalmente (no es error de flujo)
         return {
             "exito": False,
             "mensaje": str(error),

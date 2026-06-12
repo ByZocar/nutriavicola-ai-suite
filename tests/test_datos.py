@@ -41,3 +41,12 @@ def test_generador_sintetico_es_reproducible():
     assert len(df_a) == 10
     # El documento debe ser un identificador en texto, no un numero
     assert df_a["Numero_Documento"].map(type).eq(str).all()
+
+
+def test_generador_sintetico_incluye_correo_corporativo():
+    """Cada empleado debe tener un correo del dominio corporativo (llave de identidad)."""
+    df = generar_empleados_sinteticos(cantidad=10, semilla=7)
+    assert "Correo" in df.columns
+    assert df["Correo"].str.endswith("@nutriavicola.com").all()
+    # El correo debe ser unico por empleado
+    assert df["Correo"].is_unique
