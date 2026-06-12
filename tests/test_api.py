@@ -2,6 +2,8 @@
 
 from fastapi.testclient import TestClient
 
+from nutria_ai import config
+from nutria_ai.api import seguridad
 from nutria_ai.api.app import app
 
 cliente = TestClient(app)
@@ -42,20 +44,40 @@ def test_clasificador_sugiere():
     assert "tipo_incidencia_sugerido" in respuesta.json()
 
 
-def test_certificado_valido_devuelve_url_descarga():
-    """Un empleado valido debe responder con el enlace de descarga del PDF."""
+def test_certificado_valido_devuelve_url_firmada():
+    """Un empleado valido debe responder con un enlace de descarga firmado."""
     respuesta = cliente.post(
         "/certificados",
         json={"numero_documento": "1010000003", "area": "Gestión Humana"},
     )
     assert respuesta.status_code == 200
     cuerpo = respuesta.json()
-    assert "url_descarga" in cuerpo
-    assert cuerpo["url_descarga"].endswith("/certificados/1010000003/pdf")
+    assert cuerpo["exito"] is True
+    # La URL ya no expone el documento: usa un token firmado
+    assert "/certificados/descargar?token=" in cuerpo["url_descarga"]
+    assert "1010000003" not in cuerpo["url_descarga"]
 
 
-def test_descargar_pdf_por_documento():
-    """El endpoint de descarga debe devolver un PDF para un documento valido."""
-    respuesta = cliente.get("/certificados/1010000003/pdf")
+def test_descargar_con_token_valido():
+    """Con un token firmado valido se debe poder descargar el PDF."""
+    token = seguridad.firmar_descarga("1010000003")
+    respuesta = cliente.get(f"/certificados/descargar?token={token}")
     assert respuesta.status_code == 200
     assert respuesta.headers["content-type"] == "application/pdf"
+
+
+def test_descargar_con_token_invalido_rechaza():
+    """Un token falsificado debe ser rechazado con 401."""
+    respuesta = cliente.get("/certificados/descargar?token=token-falso-123")
+    assert respuesta.status_code == 401
+
+
+def test_api_key_obligatoria_en_produccion(monkeypatch):
+    """Si se define API_KEY, los endpoints protegidos exigen el header correcto."""
+    monkeypatch.setattr(config, "API_KEY", "clave-secreta")
+    # Sin header -> 401
+    sin_clave = cliente.get("/tickets/criticos")
+    assert sin_clave.status_code == 401
+    # Con header correcto -> 200
+    con_clave = cliente.get("/tickets/criticos", headers={"X-API-Key": "clave-secreta"})
+    assert con_clave.status_code == 200

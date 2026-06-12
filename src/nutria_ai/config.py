@@ -35,3 +35,20 @@ SEPARADOR_TICKETS = ";"
 # Criterio de ticket critico (Reto 2)
 ESTADO_CRITICO = "Pendiente"
 PRIORIDAD_CRITICA = "Alta"
+
+# --- Seguridad de la API ---
+
+# Clave que Power Automate (o cualquier cliente) debe enviar en el header
+# 'X-API-Key'. Si esta vacia, la API corre en modo desarrollo SIN exigir clave
+# (util para tests y local). En produccion SIEMPRE se debe definir.
+API_KEY = os.getenv("API_KEY", "")
+
+# Secreto para firmar las URLs de descarga (HMAC). Asi el enlace no es adivinable
+# y caduca. Hay un valor por defecto solo para desarrollo/tests.
+SECRETO_FIRMA = os.getenv("SECRETO_FIRMA", "desarrollo-no-usar-en-produccion")
+
+# Minutos de validez del enlace de descarga del certificado
+MINUTOS_VALIDEZ_DESCARGA = int(os.getenv("MINUTOS_VALIDEZ_DESCARGA", "15"))
+
+# URL publica base de la API, para construir el enlace de descarga
+BASE_URL = os.getenv("BASE_URL", "https://nutriavicola-api.onrender.com")

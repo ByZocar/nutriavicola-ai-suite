@@ -11,14 +11,13 @@ Ejecucion local:
 
 from __future__ import annotations
 
-import os
-
 import pandas as pd
-from fastapi import FastAPI, HTTPException
+from fastapi import Depends, FastAPI, HTTPException
 from fastapi.responses import FileResponse
 from pydantic import BaseModel, Field
 
 from nutria_ai import config
+from nutria_ai.api import seguridad
 from nutria_ai.certificados import generador
 from nutria_ai.clasificador import modelo
 from nutria_ai.tickets import exportador, filtrado
@@ -70,7 +69,7 @@ def salud() -> dict:
     return {"estado": "ok", "servicio": "nutriavicola-ai-suite"}
 
 
-@app.get("/tickets/criticos")
+@app.get("/tickets/criticos", dependencies=[Depends(seguridad.verificar_api_key)])
 def tickets_criticos() -> dict:
     """Devuelve los tickets criticos (Pendiente + Alta) y su conteo."""
     df = _leer_tickets_procesados()
@@ -78,7 +77,7 @@ def tickets_criticos() -> dict:
     return exportador.construir_payload(criticos)
 
 
-@app.get("/tickets/resumen")
+@app.get("/tickets/resumen", dependencies=[Depends(seguridad.verificar_api_key)])
 def resumen_tickets() -> dict:
     """Resumen analitico de los tickets para el dashboard y el agente."""
     df = _leer_tickets_procesados()
@@ -91,25 +90,20 @@ def resumen_tickets() -> dict:
     }
 
 
-# URL base publica de la API (configurable por entorno). Sirve para construir
-# el enlace de descarga que el agente le muestra al usuario en el chat.
-BASE_URL = os.getenv("BASE_URL", "https://nutriavicola-api.onrender.com")
-
-
-@app.post("/certificados")
+@app.post("/certificados", dependencies=[Depends(seguridad.verificar_api_key)])
 def crear_certificado(solicitud: SolicitudCertificado) -> dict:
     """
     Valida documento + area y genera el certificado laboral en PDF.
 
-    Responde 404 si el empleado no existe, que es lo que el agente convierte en
-    un mensaje amable o en una transferencia a un humano. Devuelve un enlace de
-    descarga listo para mostrar en el chat.
+    Si el empleado no existe devuelve exito=false (no 404) para que Copilot
+    Studio lo trate como dato de negocio y no como error de flujo. Cuando hay
+    exito devuelve un enlace de descarga FIRMADO y con caducidad: el documento
+    viaja dentro del token, no en la URL, asi no es adivinable.
     """
     try:
         empleado = generador.buscar_empleado(solicitud.numero_documento, solicitud.area)
         generador.generar_certificado_pdf(solicitud.numero_documento, solicitud.area)
     except generador.EmpleadoNoEncontrado as error:
-        # exito=false permite que Copilot Studio evalúe la condición sin parsear JSON
         return {
             "exito": False,
             "mensaje": str(error),
@@ -117,7 +111,8 @@ def crear_certificado(solicitud: SolicitudCertificado) -> dict:
         }
 
     documento = str(empleado["Numero_Documento"])
-    url_descarga = f"{BASE_URL}/certificados/{documento}/pdf"
+    token = seguridad.firmar_descarga(documento)
+    url_descarga = f"{config.BASE_URL}/certificados/descargar?token={token}"
 
     return {
         "exito": True,
@@ -132,22 +127,24 @@ def crear_certificado(solicitud: SolicitudCertificado) -> dict:
     }
 
 
-@app.get("/certificados/{numero_documento}/pdf")
-def descargar_certificado(numero_documento: str) -> FileResponse:
+@app.get("/certificados/descargar")
+def descargar_certificado(token: str) -> FileResponse:
     """
-    Genera y devuelve el PDF del certificado como archivo descargable.
+    Devuelve el PDF del certificado a partir de un token firmado y vigente.
 
-    Busca solo por documento: la validacion de documento + area ya se hizo en la
-    conversacion, asi el enlace es limpio y se abre directo en el navegador.
+    No exige API key porque lo abre el navegador del usuario, pero el token
+    caduca y no se puede falsificar. El documento se extrae del token, nunca
+    de la URL en claro.
     """
+    documento = seguridad.validar_descarga(token)
     try:
-        ruta = generador.generar_certificado_pdf_por_documento(numero_documento)
+        ruta = generador.generar_certificado_pdf_por_documento(documento)
     except generador.EmpleadoNoEncontrado as error:
         raise HTTPException(status_code=404, detail=str(error))
     return FileResponse(ruta, media_type="application/pdf", filename=ruta.name)
 
 
-@app.post("/clasificador/sugerir")
+@app.post("/clasificador/sugerir", dependencies=[Depends(seguridad.verificar_api_key)])
 def sugerir_clasificacion(solicitud: SolicitudClasificacion) -> dict:
     """Sugiere tipo de incidencia y nivel de soporte para un ticket nuevo."""
     clasificador = _obtener_clasificador()
