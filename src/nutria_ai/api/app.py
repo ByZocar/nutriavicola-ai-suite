@@ -109,12 +109,18 @@ def crear_certificado(solicitud: SolicitudCertificado) -> dict:
         empleado = generador.buscar_empleado(solicitud.numero_documento, solicitud.area)
         generador.generar_certificado_pdf(solicitud.numero_documento, solicitud.area)
     except generador.EmpleadoNoEncontrado as error:
-        raise HTTPException(status_code=404, detail=str(error))
+        # exito=false permite que Copilot Studio evalúe la condición sin parsear JSON
+        return {
+            "exito": False,
+            "mensaje": str(error),
+            "url_descarga": "",
+        }
 
     documento = str(empleado["Numero_Documento"])
     url_descarga = f"{BASE_URL}/certificados/{documento}/pdf"
 
     return {
+        "exito": True,
         "mensaje": f"Certificado generado para {empleado['Nombre_Completo']}.",
         "url_descarga": url_descarga,
         "empleado": {

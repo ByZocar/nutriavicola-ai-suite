@@ -23,13 +23,16 @@ def test_tickets_criticos():
     assert isinstance(cuerpo["tickets"], list)
 
 
-def test_certificado_empleado_inexistente_devuelve_404():
-    """Pedir certificado de un empleado inexistente debe responder 404."""
+def test_certificado_empleado_inexistente_devuelve_exito_false():
+    """Empleado no encontrado: responde 200 con exito=false para que Power Automate no lo trate como error de flujo."""
     respuesta = cliente.post(
         "/certificados",
         json={"numero_documento": "0000000000", "area": "Inexistente"},
     )
-    assert respuesta.status_code == 404
+    assert respuesta.status_code == 200
+    cuerpo = respuesta.json()
+    assert cuerpo["exito"] is False
+    assert "mensaje" in cuerpo
 
 
 def test_clasificador_sugiere():
